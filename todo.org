@@ -1,0 +1,15 @@
+#+TITLE: TODO
+
+* TODO Cleanup codebase/document everything
+** DONE move core out of modules
+* DONE flycheck
+* TODO persp mode
+* TODO org mode
+* TODO relative lines
+* TODO lsp-mode
+* DONE company
+* DONE elisp keybinds
+* TODO projectile compilation
+* TODO auto module gen script
+* TODO init macro
+* DONE IDE module
