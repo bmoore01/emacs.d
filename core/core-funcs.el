@@ -167,6 +167,4 @@
   "Start the configuration"
   (progn
     (raise-gc-on-init)
-    (setup-use-package)
-    (general-evil-setup)
-    (add-all-modules)))
+    (setup-use-package)))

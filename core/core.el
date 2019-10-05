@@ -1,10 +1,10 @@
 ;; core.el
-(provide 'core)
 (require 'core-funcs)
 
 (defconst modules-dir (concat user-emacs-directory "modules/"))
 (defconst langs-dir (concat modules-dir "langs/"))
 
+;; this has to be called first before anything
 (initialise-core)
 
 ;; set defaults
@@ -74,7 +74,9 @@
   :init
   (evil-mode))
 
-(use-package general)
+(use-package general
+  :after evil
+  :config (general-evil-setup))
 
 (use-package which-key
   :init
@@ -116,7 +118,8 @@
 ;;  :config
 ;;  (counsel-projectile-mode))
 
+(require 'core-keybinds)
 (add-all-modules)
 (add-langs)
-(require 'core-keybinds)
-;; core.el ends here
+(provide 'core)
+;;; core.el ends here
