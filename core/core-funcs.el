@@ -1,5 +1,4 @@
 ;; core-funcs.el
-(provide 'core-funcs)
 
 (defun setup-use-package ()
   (require 'package)
@@ -32,14 +31,14 @@
 
 
 (defun new-empty-buffer ()
-  "Create a new buffer called untitled(<n>)"
+  "Create a new buffer called untitled(<n>)."
   (interactive)
   (let ((newbuf (generate-new-buffer-name "untitled")))
     (switch-to-buffer newbuf)))
 
 
 (defun switch-to-scratch-buffer ()
-  "Switch to the `*scratch*' buffer. Create it if needed."
+  "Switch to the `*scratch*' buffer or create it if needed."
   (interactive)
   (let ((exists (get-buffer "*scratch*")))
     (switch-to-buffer (get-buffer-create "*scratch*"))
@@ -49,7 +48,7 @@
       (funcall scratch-mode))))
 
 (defun add-path-string-to-exec-path (str)
-  "add all my paths to the exec path"
+  "Add all paths in STR seperated by colons to the exec path."
   (mapcar (lambda (s) (setenv "PATH" (concat s))) (split-string str ":")))
 
 
@@ -72,7 +71,7 @@
 	  (clean-dir-files langs-dir)))
 
 (defun raise-gc-on-init ()
-  "Set garbage collection to be higher on initialisation"
+  "Set garbage collection to be higher on initialisation."
   (setq gc-cons-threshold 50000000)
   (add-hook 'emacs-startup-hook (lambda ()
 	      (setq gc-cons-threshold 800000))))
@@ -126,7 +125,7 @@
       (neotree-select-up-node))))
 
 (defun create-popup (fname buf-name popup-func height select)
-  "Create a popup window which calls a function upon opening if select is t then the window will become the active window upon opening"
+  "Create a popup window which calls a function upon opening if select is t then the window will become the active window upon opening."
   (if (not (get fname 'state))
       (let ((win (split-window (frame-root-window) height)))
 	(when 'select
@@ -164,7 +163,10 @@
 
 
 (defun initialise-core ()
-  "Start the configuration"
+  "Start the configuration."
   (progn
     (raise-gc-on-init)
     (setup-use-package)))
+
+(provide 'core-funcs)
+;;; core-funcs.el ends here

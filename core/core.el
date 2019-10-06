@@ -1,6 +1,7 @@
 ;; core.el
 (require 'core-funcs)
 
+;; make sure this is where you cloned your config otherwise bad news
 (defconst modules-dir (concat user-emacs-directory "modules/"))
 (defconst langs-dir (concat modules-dir "langs/"))
 
@@ -104,19 +105,6 @@
 
 (use-package counsel)
 (use-package swiper)
-
-;;(use-package projectile
-;;  :config
-;;  (projectile-mode)
-;;  (setq projectile-project-search-path '("~/workspace")
-;;	projectile-completion-system 'ivy))
-;;
-;;(use-package ag)
-;;(use-package wgrep)
-;;(use-package counsel-projectile
-;;  :after projectile
-;;  :config
-;;  (counsel-projectile-mode))
 
 (require 'core-keybinds)
 (add-all-modules)
