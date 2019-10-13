@@ -1,5 +1,6 @@
-;; ide-keybinds.el
+;; ide-keybinds.el --- Summary
 
+;;;Code:
 ;; projectile key bindings
 (general-create-definer projectile-leader-def
   :prefix "SPC p")
@@ -45,6 +46,17 @@
  "m" 'lsp-ui-imenu
  "s" 'lsp-ui-sideline-mode
  "d" 'my-toggle-lsp-ui-doc)
+
+
+(general-nmap
+  :keymaps 'lsp-ui-imenu-mode-map
+  "q" 'lsp-ui-imenu--kill
+  ;;"<right>" 'lsp-ui-imenu--next-kind
+  ;;"<left>" 'lsp-ui-imenu--prev-kind
+  ;;"<return>" 'lsp-ui-imenu--view
+  ;;"<M-return>" 'lsp-ui-imenu--visit
+  "M-RET" 'lsp-ui-imenu--view
+  "RET" 'lsp-ui-imenu--visit)
 
 (provide 'ide-keybinds)
 ;;; ide-keybinds.el ends here

@@ -1,6 +1,9 @@
 ;; core-funcs.el
 
+;;; Code:
+
 (defun setup-use-package ()
+  "Setup the package archives and install use-package."
   (require 'package)
   (setq package-enable-at-startup nil)
   (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
@@ -17,12 +20,12 @@
 
 
 (defun clean-dir-files (path)
-  "Return contents of a directory without . and .. "
+  "Return contents of a directory  at PATH without . and .."
   (remove ".." (remove "." (directory-files path))))
 
 
 (defun recompile-config-modules ()
-  "Byte compile everything in the `~/.emacs.d/modules/' directory"
+  "Byte compile everything in the `~/.emacs.d/modules/' directory."
   (interactive)
   (let ((prefix "~/.emacs.d/modules/"))
     (mapcar (lambda (x)
@@ -55,6 +58,7 @@
 ;; refactor to exclude modules eventually
 ;;;###autoload
 (defun add-all-modules ()
+  "Add all dorectories in the `modules-dir' to the `load-path'."
   (mapcar (lambda (x)
 	    (progn
 	      (add-to-list 'load-path (concat modules-dir x))
@@ -64,6 +68,7 @@
 
 ;;;###autoload
 (defun add-langs ()
+  "Add all dorectories in the `langs-dir' to the `load-path'."
   (mapcar (lambda (x)
 	    (progn
 	      (add-to-list 'load-path (concat langs-dir x))
@@ -81,6 +86,7 @@
   "Buffer names ignored by `next-buffer' and `previous-buffer'.")
 
 (defun my-buffer-predicate (buffer)
+  "Tell `next-buffer' and `previous-buffer' to skip the BUFFER if its name is listed in `my-skippable-buffers'."
   (if (member (buffer-name buffer) my-skippable-buffers)
       nil
     t))
@@ -125,7 +131,7 @@
       (neotree-select-up-node))))
 
 (defun create-popup (fname buf-name popup-func height select)
-  "Create a popup window which calls a function upon opening if select is t then the window will become the active window upon opening."
+  "Created a popup window of height HEIGHT which is stored in FNAME, will call create buffer BUF-NAME and call POPUP-FUNC in the new window."
   (if (not (get fname 'state))
       (let ((win (split-window (frame-root-window) height)))
 	(when 'select
@@ -139,6 +145,7 @@
 	(put fname 'state nil)))))
 
 (defun shell-toggle ()
+  "Open a dumb shell in a popup in a buffer."
   (interactive)
   (if (not (get :shell-toggle 'state))
       (let* ((buffer (get-buffer-create "Shell-popup"))
@@ -150,6 +157,23 @@
       (let ((win (get :shell-toggle 'state)))
 	(delete-window win)
 	(put :shell-toggle 'state nil)))))
+
+(defun smart-shell-toggle ()
+  "Open a smarter shell using term mode in a popup window."
+  (interactive)
+  (if (not (get :smart-shell-toggle 'state))
+      (let* ((buffer (get-buffer-create "Terminal"))
+	     (win (display-buffer-in-side-window buffer `((window-height . 12)))))
+	;;(shell buffer)
+	;;(term "/bin/zsh")
+	(ansi-term "/bin/zsh" buffer)
+	;;(set-frame-font "MesloLGS NF")
+	(put :smart-shell-toggle 'state win))
+    (progn
+      (let ((win (get :smart-shell-toggle 'state)))
+	(delete-window win)
+	(put :smart-shell-toggle 'state nil)))))
+(add-hook 'term-mode-hook (lambda () (set-frame-font "MesloLGS NF")))
 
 (defun eshell-toggle ()
   (interactive)

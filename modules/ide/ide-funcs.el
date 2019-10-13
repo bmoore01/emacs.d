@@ -25,5 +25,14 @@
       (lsp-ui-doc--hide-frame))
      (lsp-ui-doc-mode 1)))
 
+(defun my-toggle-lsp-ui-imenu ()
+  (interactive)
+  (if (not (get :my-toggle-lsp-ui-imenu 'state))
+      (progn
+	(lsp-ui-imenu)
+	(put :my-toggle-lsp-ui-imenu 'state t))
+    (lsp-ui-imenu--kill)
+    (put :my-toggle-lsp-ui-imenu 'state nil)))
+
 (provide 'ide-funcs)
 ;;; ide-funcs.el ends here

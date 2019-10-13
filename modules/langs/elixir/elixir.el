@@ -6,8 +6,8 @@
 ;;; Code:
 (add-to-list 'exec-path (concat user-emacs-directory "language-servers/elixir-ls"))
 
-;;(use-package elixir-mode
-;;  :hook ('elixir-mode-hook . 'flycheck-mode))
+(use-package elixir-mode
+  :hook ('elixir-mode-hook . 'flycheck-mode))
 
 (provide 'elixir)
 ;;; elixir.el ends here

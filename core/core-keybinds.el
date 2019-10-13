@@ -1,5 +1,9 @@
-;; core-keybinds.el
-(provide 'core-keybinds)
+;; core-keybinds.el --- Summary
+
+;;; Commentary:
+;;; All the keybindings that are essential to how I use Emacs.
+
+;;; Code:
 
 ;; window keybinds
 (general-create-definer window-leader-def
@@ -27,7 +31,7 @@
  ;; home
  "s" 'switch-to-scratch-buffer
  "N" 'new-empty-buffer
- "d" 'kill-current-buffer 
+ "d" 'kill-current-buffer
  "n" 'next-buffer
  "p" 'previous-buffer
  "]" 'next-buffer
@@ -42,7 +46,8 @@
  "t" 'neotree-toggle
  "e" 'eshell-toggle
  "i" 'elisp-repl-toggle
- "s" 'shell-toggle)
+ "s" 'shell-pop)
+ ;;"s" 'shell-toggle) ;; rip my shell toggle, hope I can find a fix for this someday D:
 
 ;; file key bindings
 (general-create-definer file-leader-def
@@ -94,3 +99,5 @@
 (general-nmap
   :states 'visual
   "TAB" 'indent-region)
+(provide 'core-keybinds)
+;;; core-keybinds.el ends here
