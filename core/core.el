@@ -42,8 +42,6 @@
       kept-old-versions 2
       version-control t
       use-package-always-ensure t)
-      ;;gdb-many-windows t
-      ;;gdb-show-main t)
 
 (setq use-package-always-ensure t)
 
@@ -111,7 +109,10 @@
   (setq shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
   (setq shell-pop-term-shell "/bin/zsh")
   ;; need to do this manually or not picked up by `shell-pop'
-  (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
+  (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type)
+  (custom-set-variables
+   '(shell-pop-full-span t)
+   '(shell-pop-window-size 30)))
 
 
 (require 'core-keybinds)

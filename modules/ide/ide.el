@@ -11,6 +11,9 @@
 ;;; Code:
 (require 'ide-funcs)
 
+(setq gdb-many-windows t
+      gdb-show-main t)
+
 (use-package projectile
   :config
   (projectile-mode)
@@ -36,17 +39,23 @@
 
 (use-package lsp-mode
   :commands lsp
-  :hook (elixir-mode . lsp)
+  :hook (prog-mode . lsp)
   :custom
   (lsp-auto-guess-root nil)
   (lsp-print-io nil)
   (lsp-trace nil)
   (lsp-print-performance nil)
   :config
+  (setq lsp-keep-workspace-alive nil
+	lsp-auto-guess-root t)
   (use-package company-lsp
     :config
-    (add-to-list 'company-backends 'company-lsp))
-  (setq lsp-enable-snippet nil))
+    (add-to-list 'company-backends 'company-lsp)
+    :custom
+    (company-lsp--cache-item-candidates t)
+    (company-lsp--candidates-async t))
+  (setq lsp-enable-snippet nil)
+  (add-to-list 'exec-path "/usr/local/opt/llvm/bin/clangd"))
 
 (use-package lsp-ui
   :requires lsp-mode flycheck
@@ -78,7 +87,15 @@
    lsp-ui-sideline-ignore-duplicate t
    lsp-ui-doc-enable nil))
 
-;; TODO add dap mode
+(use-package dap-mode
+  :config
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1)
+  (require 'dap-gdb-lldb)
+  (dap-gdb-lldb-setup))
+
 
 (require 'ide-keybinds)
 (provide 'ide)
