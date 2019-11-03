@@ -1,10 +1,11 @@
-;; core.el
+;;; core.el --- Summary
+;;; Commentary:
+;;; Code:
 (require 'core-funcs)
 
 ;; make sure this is where you cloned your config otherwise bad news
 (defconst modules-dir (concat user-emacs-directory "modules/"))
 (defconst langs-dir (concat modules-dir "langs/"))
-
 ;; this has to be called first before anything
 (initialise-core)
 
@@ -73,6 +74,10 @@
   :init
   (evil-mode))
 
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+
 (use-package general
   :after evil
   :config (general-evil-setup))
@@ -93,6 +98,11 @@
 				      mode-line-format nil
 				      left-margin-width 2)
 				     (set-window-buffer nil (current-buffer))))
+  :custom
+  (neo-hide-cursor t)
+  (neo-auto-indent-point t)
+  (neo-create-file-auto-open t)
+  (neo-smart-open t)
   :commands neo-global--window-exists-p)
 
 (use-package ivy
@@ -114,6 +124,8 @@
    '(shell-pop-full-span t)
    '(shell-pop-window-size 30)))
 
+;;(use-package persp-mode
+;;  :hook (after-init . (lambda () (persp-mode 1))))
 
 (require 'core-keybinds)
 (add-all-modules)

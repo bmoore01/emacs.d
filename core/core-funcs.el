@@ -1,5 +1,8 @@
-;; core-funcs.el
-
+;;; core-funcs.el -- Summary
+;;; functions required for the initialization and compilation of my emacs config
+;;; Commentary:
+;;; need to refactor `add-all-modules' to be able to exclude modules to avoid janky implementation
+;;; then can create macro for the init file which shows which files to include
 ;;; Code:
 
 (defun setup-use-package ()
@@ -58,17 +61,18 @@
 ;; refactor to exclude modules eventually
 ;;;###autoload
 (defun add-all-modules ()
-  "Add all dorectories in the `modules-dir' to the `load-path'."
-  (mapcar (lambda (x)
+  "Add all modules in the `modules-dir' to the `load-path'."
+  (mapc (lambda (x)
 	    (progn
 	      (add-to-list 'load-path (concat modules-dir x))
 	      (require (intern x))))
-	  ;; don't include core twice
-	  (remove "langs" (remove "core" (clean-dir-files modules-dir)))))
+	  ;; don't include langs twice add utils manually
+	  (remove "utils" (remove "langs" (clean-dir-files modules-dir))))
+  (add-to-list 'load-path "util-funcs"))
 
 ;;;###autoload
 (defun add-langs ()
-  "Add all dorectories in the `langs-dir' to the `load-path'."
+  "Add all modules in the `langs-dir' to the `load-path'."
   (mapcar (lambda (x)
 	    (progn
 	      (add-to-list 'load-path (concat langs-dir x))

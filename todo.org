@@ -4,9 +4,11 @@
 ** DONE move core out of modules
 * DONE flycheck
 * TODO persp mode
+* TODO dap mode
+* TODO yasnippet
 * TODO IRC/Email
 * TODO org mode
-* TODO buffer list
+* DONE buffer list
 * DONE relative lines
 * DONE lsp-mode
 * DONE company

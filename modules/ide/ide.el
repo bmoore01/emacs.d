@@ -37,6 +37,16 @@
   :config
   (setq linum-relative-backend 'display-line-numbers-mode))
 
+(use-package smartparens
+  :hook
+  (after-init . smartparens-global-mode)
+  :config
+  (require 'smartparens-config)
+  ;;(sp-pair "=" "=" :actions '(wrap))
+  ;;(sp-pair "+" "+" :actions '(wrap))
+  ;;(sp-pair "$" "$" :actions '(wrap))
+  (sp-pair "<" ">" :actions '(wrap)))
+
 (use-package lsp-mode
   :commands lsp
   :hook (prog-mode . lsp)

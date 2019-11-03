@@ -27,7 +27,7 @@
 
 (buffer-leader-def
  :keymaps 'normal
- "b" 'counsel-buffer-or-recentf
+ "b" 'ivy-switch-buffer
  ;; home
  "s" 'switch-to-scratch-buffer
  "N" 'new-empty-buffer
@@ -68,6 +68,7 @@
 (general-define-key
  :keymaps 'neotree-mode-map
  :states '(normal visual insert emacs)
+ "q" 'neotree-hide
  "RET" 'neotree-enter
  "TAB" 'neotree-stretch-toggle
  "|" 'neotree-enter-vertical-split
