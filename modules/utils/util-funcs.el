@@ -33,14 +33,24 @@ MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil va
       (insert (format "(provide '%s)\n;;; %s.el ends here" file-name file-name))
       file-with-path)))
 
-(create-module-file "org-mode")
-
 (defun create-module (module-name &optional lang)
   "Create all the templates nessecary for creating a module withe name MODULE-NAME if LANG is non-nil will create a language module."
   (let ((main (create-module-file module-name nil lang))
 	(keybinds (create-module-file module-name "keybinds" lang))
 	(funcs (create-module-file module-name "funcs" lang)))
     (add-all-modules)))
+
+(defun new-module ()
+  "Create a new module temoplate."
+  (interactive)
+  (let ((module-name (read-from-minibuffer "New module name: ")))
+    (create-module module-name nil)))
+
+(defun new-lang-module ()
+  "Create a new lang module temoplate."
+  (interactive)
+  (let ((module-name (read-from-minibuffer "New lang module name: ")))
+    (create-module module-name t)))
 
 (provide 'utils-funcs)
 ;;; util-funcs.el ends here

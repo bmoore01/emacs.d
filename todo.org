@@ -7,13 +7,13 @@
 * TODO dap mode
 * TODO yasnippet
 * TODO IRC/Email
-* TODO org mode
+* DONE org mode
 * DONE buffer list
 * DONE relative lines
 * DONE lsp-mode
 * DONE company
 * DONE elisp keybinds
 * TODO projectile compilation
-* TODO auto module gen script
+* DONE auto module gen script
 * TODO auto project gen scripts
 * TODO init macro

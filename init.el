@@ -28,13 +28,13 @@
  '(lsp-trace nil t)
  '(lsp-ui-doc-enable nil)
  '(lsp-ui-sideline-show-hover t)
- '(neo-auto-indent-point t t)
- '(neo-create-file-auto-open t t)
- '(neo-hide-cursor t t)
- '(neo-smart-open t t)
+ '(neo-auto-indent-point t)
+ '(neo-create-file-auto-open t)
+ '(neo-hide-cursor t)
+ '(neo-smart-open t)
  '(package-selected-packages
    (quote
-    (evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
+    (lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
  '(shell-pop-full-span t)
  '(shell-pop-window-size 30))
 (custom-set-faces
@@ -42,4 +42,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-document-title ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.5 :underline nil))))
+ '(org-level-1 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.5))))
+ '(org-level-2 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.25))))
+ '(org-level-3 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.1))))
+ '(org-level-4 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1))))
+ '(org-level-5 ((t (:inherit default :weight bold :background nil :font "Lucida Grande"))))
+ '(org-level-6 ((t (:inherit default :weight bold :background nil :font "Lucida Grande"))))
+ '(org-level-7 ((t (:inherit default :weight bold :background nil :font "Lucida Grande"))))
+ '(org-level-8 ((t (:inherit default :weight bold :background nil :font "Lucida Grande")))))

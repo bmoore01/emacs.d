@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+;; switch mac keybinds
+(setq mac-option-modifier 'super)
+(setq mac-command-modifier 'meta)
+
 ;; window keybinds
 (general-create-definer window-leader-def
   :prefix "SPC w"

@@ -45,8 +45,16 @@
  "i" 'lsp-ui-peek-find-implementation
  "m" 'lsp-ui-imenu
  "s" 'lsp-ui-sideline-mode
- "d" 'my-toggle-lsp-ui-doc)
+ "d" 'my-toggle-lsp-ui-doc
+ "D" 'dap-debug)
 
+(lsp-leader-def
+  :keymap 'dap-mode-map
+  :states '(normal visual)
+  "s" 'dap-step-in
+  "S" 'dap-step-out
+  "c" 'dap-continue
+  "b" 'dap-breakpoint-toggle)
 
 (general-nmap
   :keymaps 'lsp-ui-imenu-mode-map
