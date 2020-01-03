@@ -16,8 +16,8 @@
 
 (window-leader-def
  :keymaps 'normal
- "/" 'split-window-right
- "-" 'split-window-vertically
+ "v" 'split-window-and-follow-horizontally
+ "s" 'split-window-and-follow-vertically
  "d" 'delete-window
  "j" 'evil-window-down
  "k" 'evil-window-up
@@ -28,6 +28,11 @@
 (general-create-definer buffer-leader-def
   :prefix "SPC b"
   :which-key "buffer")
+
+(general-define-key
+ :states '(normal visual)
+  "M-]" 'next-buffer :which-key "next buffer"
+  "M-[" 'previous-buffer :which-key "previous buffer")
 
 (buffer-leader-def
  :keymaps 'normal
@@ -40,6 +45,10 @@
  "p" 'previous-buffer
  "]" 'next-buffer
  "[" 'previous-buffer)
+
+;; searching
+(general-nmap
+  "M-f" 'occur)
 
 ;; open things bindings
 (general-create-definer open-leader-def
@@ -72,6 +81,7 @@
 (general-define-key
  :keymaps 'neotree-mode-map
  :states '(normal visual insert emacs)
+ "<escape>" 'neotree-hide
  "q" 'neotree-hide
  "RET" 'neotree-enter
  "TAB" 'neotree-stretch-toggle
@@ -87,22 +97,32 @@
  "gr" 'neotree-refresh
  "l" 'neotree-expand-or-open
  "h" 'neotree-collapse-or-up
+ "M-1" 'neotree-hide
  "s" 'neotree-hidden-file-toggle)
 
 ;; ivy keys
 (general-define-key
- :keymaps 'ivy-minibuffer-map
+ :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
+ "<escape>" 'minibuffer-keyboard-quit
  "C-j" 'ivy-next-line
  "C-k" 'ivy-previous-line
  "C-d" 'ivy-scroll-down-command
  "C-u" 'ivy-scroll-up-command)
 
-(general-nmap
-  :prefix "SPC"
- "SPC" 'counsel-M-x)
+(general-define-key
+ :keymaps 'ivy-switch-buffer-map
+ "C-d" 'ivy-switch-buffer-kill)
 
 (general-nmap
-  :states 'visual
-  "TAB" 'indent-region)
+  :prefix "SPC"
+  "SPC" 'counsel-M-x)
+
+(general-define-key
+ :states '(normal visual)
+ "TAB" 'indent-region
+ "M-1" 'neotree-show
+ "C-a" 'evil-numbers/inc-at-pt
+ "C-x" 'evil-numbers/dec-at-pt)
+
 (provide 'core-keybinds)
 ;;; core-keybinds.el ends here

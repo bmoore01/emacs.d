@@ -19,14 +19,34 @@
     (pretty-mac-titlebar))
 
 ;; set default font
-(when (member "IBM Plex Mono" (font-family-list))
-  (add-to-list 'default-frame-alist '(font ."IBM Plex Mono-16"))
-  (add-to-list 'default-frame-alist '(width . 80)))
-
+;;(when (member "Menlo" (font-family-list))
+;;  (set-frame-font "menlo-13:weight=regular" t t))
+(when (member "Source Code Variable" (font-family-list))
+  (set-frame-font "Source Code Variable-13:weight=regular" t t))
 
 (use-package doom-themes)
 (use-package all-the-icons)
+(use-package all-the-icons-ivy
+  :hook (after-init. all-the-icons-ivy-setup))
 (use-package doom-modeline :config (doom-modeline-mode))
+
+;;(use-package centaur-tabs
+;;  :demand
+;;  :init (setq centaur-tabs-set-bar 'under)
+;;  :config
+;;  (centaur-tabs-mode +1)
+;;  (centaur-tabs-headline-match)
+;;  (setq centaur-tabs-set-modified-marker t
+;;        centaur-tabs-modified-marker " ● "
+;;        centaur-tabs-cycle-scope 'tabs
+;;        centaur-tabs-height 30
+;;        centaur-tabs-set-icons t
+;;        centaur-tabs-close-button " × ")
+;;  (centaur-tabs-change-fonts "Arial" 130)
+;;  (centaur-tabs-group-by-projectile-project)
+;;  :bind
+;;  ("C-S-<tab>" . centaur-tabs-backward)
+;;  ("C-<tab>" . centaur-tabs-forward))
 
 (use-package dashboard
   :hook

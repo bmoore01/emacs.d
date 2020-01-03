@@ -34,7 +34,7 @@
  '(neo-smart-open t)
  '(package-selected-packages
    (quote
-    (lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
+    (centaur-tabs ivy-posframe ivy-rich all-the-icons-ivy evil-numbers cargo-mode lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
  '(shell-pop-full-span t)
  '(shell-pop-window-size 30))
 (custom-set-faces
@@ -42,6 +42,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(lsp-ui-doc-background ((t (:background nil))))
+ '(lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
  '(org-document-title ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.5 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.5))))
  '(org-level-2 ((t (:inherit default :weight bold :background nil :font "Lucida Grande" :height 1.25))))

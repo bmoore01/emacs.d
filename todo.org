@@ -4,7 +4,7 @@
 ** DONE move core out of modules
 * DONE flycheck
 * TODO persp mode
-* TODO dap mode
+* IN-PROGRESS dap mode
 * TODO yasnippet
 * TODO IRC/Email
 * DONE org mode

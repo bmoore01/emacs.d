@@ -16,5 +16,5 @@
 (help-leader-def
  :states '(normal visual)
  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
- "f" 'describe-function
- "v" 'describe-variable)
+ "f" 'counsel-describe-function
+ "v" 'counsel-describe-variable)

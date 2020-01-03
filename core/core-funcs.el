@@ -189,12 +189,23 @@
   (create-popup
    'ielm-toggle "repl" 'ielm -10 t))
 
-
 (defun initialise-core ()
   "Start the configuration."
   (progn
     (raise-gc-on-init)
     (setup-use-package)))
+
+(defun split-window-and-follow-horizontally ()
+  "Split window right and select new window."
+  (interactive)
+  (split-window-right)
+  (other-window 1))
+
+(defun split-window-and-follow-vertically ()
+  "Split window below and select new window."
+  (interactive)
+  (split-window-below)
+  (other-window 1))
 
 (provide 'core-funcs)
 ;;; core-funcs.el ends here

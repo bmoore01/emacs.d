@@ -66,5 +66,34 @@
   "M-RET" 'lsp-ui-imenu--view
   "RET" 'lsp-ui-imenu--visit)
 
+(general-nmap
+  :keymaps 'lsp-ui-peek-mode-map
+  "C-k" 'lsp-ui-peek--select-prev
+  "C-j" 'lsp-ui-peek--select-next
+  "C-h" 'lsp-ui-peek--select-prev-file
+  "C-l" 'lsp-ui-peek--select-next-file)
+
+(general-nmap
+  :keymaps 'lsp-mode-map
+  "M-s-b" 'lsp-find-implementation
+  "M-b" 'lsp-find-definition)
+
+;;    (define-key map "\e\e\e" 'lsp-ui-peek--abort)
+;;    (define-key map "\C-g" 'lsp-ui-peek--abort)
+;;    (define-key map (kbd "M-n") 'lsp-ui-peek--select-next-file)
+;;    (define-key map (kbd "<right>") 'lsp-ui-peek--select-next-file)
+;;    (define-key map (kbd "M-p") 'lsp-ui-peek--select-prev-file)
+;;    (define-key map (kbd "<left>") 'lsp-ui-peek--select-prev-file)
+;;    (define-key map (kbd "C-n") 'lsp-ui-peek--select-next)
+;;    (define-key map (kbd "n") 'lsp-ui-peek--select-next)
+;;    (define-key map (kbd "<down>") 'lsp-ui-peek--select-next)
+;;    (define-key map (kbd "C-p") 'lsp-ui-peek--select-prev)
+;;    (define-key map (kbd "p") 'lsp-ui-peek--select-prev)
+;;    (define-key map (kbd "<up>") 'lsp-ui-peek--select-prev)
+;;    (define-key map (kbd "TAB") 'lsp-ui-peek--toggle-file)
+;;    (define-key map (kbd "q") 'lsp-ui-peek--abort)
+;;    (define-key map (kbd "RET") 'lsp-ui-peek--goto-xref)
+;;    (define-key map (kbd "M-RET") 'lsp-ui-peek--goto-xref-other-window)
+
 (provide 'ide-keybinds)
 ;;; ide-keybinds.el ends here

@@ -70,6 +70,17 @@
 	  (lambda ()
 	    (setq eshell-command-aliases-list my-eshell-aliases)))
 
+;; disable messages buffer (comment these lines out for debugging)
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
+
+;; Disabled *Completions* buffer
+(add-hook 'minibuffer-exit-hook
+      '(lambda ()
+         (let ((buffer "*Completions*"))
+           (and (get-buffer buffer)
+            (kill-buffer buffer)))))
+
 (use-package evil
   :init
   (evil-mode))
@@ -77,6 +88,8 @@
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-numbers)
 
 (use-package general
   :after evil
@@ -107,9 +120,62 @@
 
 (use-package ivy
   :config
+
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-	ivy-count-format "[%d/%d] "))
+  (setq ivy-display-style nil
+	ivy-use-virtual-buffers t
+	ivy-initial-inputs-alist nil
+	ivy-count-format "[%d/%d]"))
+
+(use-package ivy-posframe
+  :after ivy
+  :diminish
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+        ivy-posframe-height-alist '((t . 20)))
+  (if (member "Source Code Variable" (font-family-list))
+      (setq ivy-posframe-parameters '((internal-border-width . 10) (font . "Source Code Variable-14:weight=regular")))
+    ivy-posframe-parameters '((internal-border-width . 10)))
+  (setq ivy-posframe-width 70)
+  (ivy-posframe-mode +1))
+
+(use-package ivy-rich
+  :preface
+  (defun ivy-rich-switch-buffer-icon (candidate)
+    (with-current-buffer
+        (get-buffer candidate)
+      (all-the-icons-icon-for-mode major-mode)))
+  :init
+  (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
+        '(ivy-switch-buffer
+          (:columns
+           ((ivy-rich-switch-buffer-icon (:width 2))
+            (ivy-rich-candidate (:width 35))
+            (ivy-rich-switch-buffer-project (:width 15 :face success))
+            (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
+           :predicate
+           (lambda (cand) (get-buffer cand)))
+          counsel-M-x
+          (:columns
+           ((counsel-M-x-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+          counsel-describe-function
+          (:columns
+           ((counsel-describe-function-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+          counsel-describe-variable
+          (:columns
+           ((counsel-describe-variable-transformer (:width 35))
+            (ivy-rich-counsel-variable-docstring (:width 34 :face font-lock-doc-face))))
+          package-install
+          (:columns
+           ((ivy-rich-candidate (:width 25))
+            (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
+            (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
+            (ivy-rich-package-install-summary (:width 23 :face font-lock-doc-face))))))
+  :config
+  (ivy-rich-mode +1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 (use-package counsel)
 (use-package swiper)
