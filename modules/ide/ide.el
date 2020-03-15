@@ -77,7 +77,7 @@
   (setq lsp-ui-doc-use-childframe t
 	lsp-ui-doc-max-width 120
 	lsp-ui-doc-max-height 30
-	lsp-ui-doc-use-webkit nil ;; can't compile with xwidgets
+	;;lsp-ui-doc-use-webkit nil ;; can't compile with xwidgets
 	lsp-ui-flycheck-enable t
 	lsp-ui-flycheck-list-position 'right
 	lsp-ui-flycheck-live-reporting t

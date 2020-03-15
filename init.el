@@ -34,7 +34,7 @@
  '(neo-smart-open t)
  '(package-selected-packages
    (quote
-    (centaur-tabs ivy-posframe ivy-rich all-the-icons-ivy evil-numbers cargo-mode lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
+    (cider centaur-tabs ivy-posframe ivy-rich all-the-icons-ivy evil-numbers cargo-mode lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package)))
  '(shell-pop-full-span t)
  '(shell-pop-window-size 30))
 (custom-set-faces

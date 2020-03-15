@@ -5,6 +5,11 @@
 ;;; then can create macro for the init file which shows which files to include
 ;;; Code:
 
+;; defvars to avoid free vaible error
+(defvar modules-dir)
+(defvar langs-dir)
+(defvar scratch-mode)
+
 (defun setup-use-package ()
   "Setup the package archives and install use-package."
   (require 'package)
@@ -22,10 +27,15 @@
   (require 'use-package))
 
 
+;; consider refactoring out helper functions into a core utils module that just sets up my own elisp stuff before starting the config
+;; I know there's a way of calling a file even earlier than init.el it's done in DOOM emacs
+(defun remove-sublist-from-list (to-remove lst)
+  "Remove all members of `TO-REMOVE' form `LST'.  For exmpale (remove-sublist-from list '(a b c) '(a b c d e f)) => '(d e f)."
+  (cl-remove-if (lambda (x) (member x to-remove)) lst))
+
 (defun clean-dir-files (path)
   "Return contents of a directory  at PATH without . and .."
-  (remove ".." (remove "." (directory-files path))))
-
+  (remove-sublist-from-list '(".." ".") (directory-files path)))
 
 (defun recompile-config-modules ()
   "Byte compile everything in the `~/.emacs.d/modules/' directory."
@@ -58,25 +68,31 @@
   (mapcar (lambda (s) (setenv "PATH" (concat s))) (split-string str ":")))
 
 
-;; refactor to exclude modules eventually
+;;;###autoload
+(defun add-module (module-name &optional dir)
+  "Add module `MODULE-NAME 'to the `load-path' if `DIR' is set use specified dir otherwise use `modules-dir'."
+  (if dir
+      (add-to-list 'load-path (concat dir module-name))
+    (add-to-list 'load-path (concat modules-dir module-name)))
+  (require (intern module-name)))
+
+;;;###autoload
+(defun add-lang-module (module-name)
+  "Add lang module `MODULE-NAME 'to the `load-path'."
+  (add-module module-name langs-dir))
+
 ;;;###autoload
 (defun add-all-modules ()
   "Add all modules in the `modules-dir' to the `load-path'."
-  (mapc (lambda (x)
-	    (progn
-	      (add-to-list 'load-path (concat modules-dir x))
-	      (require (intern x))))
+  (mapc (lambda (x) (add-module x))
 	  ;; don't include langs twice add utils manually
-	  (remove "utils" (remove "langs" (clean-dir-files modules-dir))))
+	  (remove-sublist-from-list '("langs" "utils") (clean-dir-files modules-dir)))
   (add-to-list 'load-path "util-funcs"))
 
 ;;;###autoload
 (defun add-langs ()
   "Add all modules in the `langs-dir' to the `load-path'."
-  (mapcar (lambda (x)
-	    (progn
-	      (add-to-list 'load-path (concat langs-dir x))
-	      (require (intern x))))
+  (mapcar (lambda (x) (add-lang-module x))
 	  (clean-dir-files langs-dir)))
 
 (defun raise-gc-on-init ()
@@ -180,11 +196,13 @@
 (add-hook 'term-mode-hook (lambda () (set-frame-font "MesloLGS NF")))
 
 (defun eshell-toggle ()
+  "Togle the opening of eshell popup-window."
   (interactive)
   (create-popup
    'eshell-toggle "eshell" 'eshell -10 t))
 
 (defun elisp-repl-toggle ()
+  "Togle the opening of ielm repl popup-window."
   (interactive)
   (create-popup
    'ielm-toggle "repl" 'ielm -10 t))

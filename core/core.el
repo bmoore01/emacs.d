@@ -127,17 +127,18 @@
 	ivy-initial-inputs-alist nil
 	ivy-count-format "[%d/%d]"))
 
-(use-package ivy-posframe
-  :after ivy
-  :diminish
-  :config
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
-        ivy-posframe-height-alist '((t . 20)))
-  (if (member "Source Code Variable" (font-family-list))
-      (setq ivy-posframe-parameters '((internal-border-width . 10) (font . "Source Code Variable-14:weight=regular")))
-    ivy-posframe-parameters '((internal-border-width . 10)))
-  (setq ivy-posframe-width 70)
-  (ivy-posframe-mode +1))
+;; put back after black screen bug is fixed with mac maybe
+;;(use-package ivy-posframe
+;;  :after ivy
+;;  :diminish
+;;  :config
+;;  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+;;        ivy-posframe-height-alist '((t . 20)))
+;;  (if (member "Source Code Variable" (font-family-list))
+;;      (setq ivy-posframe-parameters '((internal-border-width . 10) (font . "Source Code Variable-14:weight=regular")))
+;;    ivy-posframe-parameters '((internal-border-width . 10)))
+;;  (setq ivy-posframe-width 70)
+;;  (ivy-posframe-mode +1))
 
 (use-package ivy-rich
   :preface

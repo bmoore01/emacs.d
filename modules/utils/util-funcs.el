@@ -3,6 +3,9 @@
 ;;; change create module to use `add-all-modules' or create add-module function which would require refactoring add-all modules to use it too
 ;;; Code:
 
+(defvar modules-dir)
+(defvar langs-dir)
+
 (defun create-module-file (module-name &optional type lang)
   "Create a temoplate file for a module with the name MODULE-NAME TYPE.
 MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil value will create template file in the langs directory."
@@ -37,20 +40,21 @@ MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil va
   "Create all the templates nessecary for creating a module withe name MODULE-NAME if LANG is non-nil will create a language module."
   (let ((main (create-module-file module-name nil lang))
 	(keybinds (create-module-file module-name "keybinds" lang))
-	(funcs (create-module-file module-name "funcs" lang)))
-    (add-all-modules)))
+	(funcs (create-module-file module-name "funcs" lang)))))
 
 (defun new-module ()
-  "Create a new module temoplate."
+  "Create a new module template and add to load path."
   (interactive)
   (let ((module-name (read-from-minibuffer "New module name: ")))
-    (create-module module-name nil)))
+    (create-module module-name nil)
+    (add-module module-name)))
 
 (defun new-lang-module ()
   "Create a new lang module temoplate."
   (interactive)
   (let ((module-name (read-from-minibuffer "New lang module name: ")))
-    (create-module module-name t)))
+    (create-module module-name t)
+    (add-lang-module module-name)))
 
 (provide 'utils-funcs)
 ;;; util-funcs.el ends here
