@@ -1,4 +1,4 @@
-;;; ui.el --- Summary
+;;; ui.el --- Summary -*- lexical-binding:t -*-
 ;;; All interface related packages and configuration
 ;;; Commentary:
 ;;; Code:
@@ -19,10 +19,14 @@
     (pretty-mac-titlebar))
 
 ;; set default font
-;;(when (member "Menlo" (font-family-list))
-;;  (set-frame-font "menlo-13:weight=regular" t t))
-(when (member "Source Code Variable" (font-family-list))
-  (set-frame-font "Source Code Variable-13:weight=regular" t t))
+(defvar default-font "Source Code Variable")
+(defvar default-font-size 11)
+(defvar default-font-weight "regular")
+
+(set-font default-font default-font-size default-font-weight)
+
+;;(when (member "Source Code Variable" (font-family-list))
+;;  (set-frame-font "Source Code Variable-13:weight=regular" t t))
 
 (use-package doom-themes)
 (use-package all-the-icons)
@@ -61,7 +65,7 @@
 		     (projects . 5))))
 
 
-(setq ui-themes-to-cycle '(doom-moonlight doom-solarized-light))
+(defvar ui-themes-to-cycle '(doom-moonlight doom-solarized-light))
 
 (load-theme 'doom-moonlight t nil)
 (doom-themes-visual-bell-config)

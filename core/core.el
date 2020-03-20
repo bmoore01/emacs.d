@@ -1,4 +1,4 @@
-;;; core.el --- Summary
+;;; core.el --- The loader of modules -*- lexical-binding:t -*-
 ;;; Commentary:
 ;;; Code:
 (require 'core-funcs)
@@ -32,7 +32,7 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(add-to-list 'exec-path "/usr/local/bin")
+;;(add-to-list 'exec-path "/usr/local/bin")
 
 ;; avoid making a mess in the filesystem
 (setq backup-by-copying t
@@ -43,8 +43,6 @@
       kept-old-versions 2
       version-control t
       use-package-always-ensure t)
-
-(setq use-package-always-ensure t)
 
 (defvar scratch-mode 'lisp-interaction-mode
   "Default major mode of the scratch buffer.")
@@ -98,6 +96,8 @@
 (use-package which-key
   :init
   (which-key-mode))
+
+(use-package hydra)
 
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell

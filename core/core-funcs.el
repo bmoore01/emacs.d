@@ -1,4 +1,4 @@
-;;; core-funcs.el -- Summary
+;;; core-funcs.el -- Vial functions for conf -*- lexical-binding:t -*-
 ;;; functions required for the initialization and compilation of my emacs config
 ;;; Commentary:
 ;;; need to refactor `add-all-modules' to be able to exclude modules to avoid janky implementation
@@ -28,10 +28,16 @@
 
 
 ;; consider refactoring out helper functions into a core utils module that just sets up my own elisp stuff before starting the config
-;; I know there's a way of calling a file even earlier than init.el it's done in DOOM emacs
+;; consider even putting a small subset of core global functions in early-init.el
 (defun remove-sublist-from-list (to-remove lst)
   "Remove all members of `TO-REMOVE' form `LST'.  For exmpale (remove-sublist-from list '(a b c) '(a b c d e f)) => '(d e f)."
   (cl-remove-if (lambda (x) (member x to-remove)) lst))
+
+(defun concat-not-nil (x y)
+  "If X and Y are non nil concat them otherwise return X."
+  (if (and x y)
+      (concat x y)
+    x))
 
 (defun clean-dir-files (path)
   "Return contents of a directory  at PATH without . and .."
@@ -82,8 +88,8 @@
   (add-module module-name langs-dir))
 
 ;;;###autoload
-(defun add-all-modules ()
-  "Add all modules in the `modules-dir' to the `load-path'."
+(defun add-all-modules (&optional excluded)
+  "Add all modules in the `modules-dir' to the `load-path', execpt any listed in EXCLUDED."
   (mapc (lambda (x) (add-module x))
 	  ;; don't include langs twice add utils manually
 	  (remove-sublist-from-list '("langs" "utils") (clean-dir-files modules-dir)))
