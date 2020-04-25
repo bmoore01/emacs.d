@@ -20,13 +20,10 @@
 
 ;; set default font
 (defvar default-font "Source Code Variable")
-(defvar default-font-size 11)
+(defvar default-font-size 12)
 (defvar default-font-weight "regular")
 
 (set-font default-font default-font-size default-font-weight)
-
-;;(when (member "Source Code Variable" (font-family-list))
-;;  (set-frame-font "Source Code Variable-13:weight=regular" t t))
 
 (use-package doom-themes)
 (use-package all-the-icons)
@@ -34,6 +31,7 @@
   :hook (after-init. all-the-icons-ivy-setup))
 (use-package doom-modeline :config (doom-modeline-mode))
 
+;; maybe add back when I can configure it correctly
 ;;(use-package centaur-tabs
 ;;  :demand
 ;;  :init (setq centaur-tabs-set-bar 'under)
@@ -52,6 +50,7 @@
 ;;  ("C-S-<tab>" . centaur-tabs-backward)
 ;;  ("C-<tab>" . centaur-tabs-forward))
 
+
 (use-package dashboard
   :hook
   (after-init . dashboard-setup-startup-hook)
@@ -66,6 +65,7 @@
 
 
 (defvar ui-themes-to-cycle '(doom-moonlight doom-solarized-light))
+(defvar ui-themes-to-cycle '(kaolin-galaxy kaolin-valley-light))
 
 (load-theme 'doom-moonlight t nil)
 (doom-themes-visual-bell-config)

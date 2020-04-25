@@ -108,6 +108,7 @@
 	      (setq gc-cons-threshold 800000))))
 
 
+;; TODO: Add regex to skip any buffer surrounded by asterisks
 (defvar my-skippable-buffers '("*Messages*" "*Completions*" "*Help*" "*Buffer List*" "Shell-popup")
   "Buffer names ignored by `next-buffer' and `previous-buffer'.")
 

@@ -1,19 +1,26 @@
 #+TITLE: TODO
 
-* DONE Cleanup codebase/document everything
-** DONE move core out of modules
-* DONE flycheck
-* TODO persp mode
-* IN-PROGRESS dap mode
+* TODO NEEDED IDE Funcstionalities
+** DONE Find function callers (maybe x-ref) works just need to bind it to something
+** DONE Find function definition
+** TODO Find interface implementations <- needed for java
+** TODO Add stack for jumping forward and back between previous locations like intelliJ going to need some serious coding on this one 
+** TODO Add jump to definition unless at a definition then jump to usages
+* TODO ZOOM make it like dooms zoom (zoom modeline)
+* TODO Auto generate project and design docs
+* TODO GIT/MAGIT
+* IN-PROGRESS workspaces with eyebrows & desktop.el
+** DONE Setup Eyebrowse
+** TODO Setup Desktop.el
+* TODO dap mode
 * TODO yasnippet
 * TODO IRC/Email
-* DONE org mode
-* DONE buffer list
-* DONE relative lines
-* DONE lsp-mode
-* DONE company
-* DONE elisp keybinds
+* TODO org mode
+** TODO calendar
+** TODO agenda
+** TODO jira
+** TODO hydra for todos
+** TODO fix the damn UI
 * TODO projectile compilation
-* DONE auto module gen script
 * TODO auto project gen scripts
 * TODO init macro

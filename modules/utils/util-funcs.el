@@ -47,14 +47,16 @@ MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil va
   (interactive)
   (let ((module-name (read-from-minibuffer "New module name: ")))
     (create-module module-name nil)
-    (add-module module-name)))
+    (add-module module-name)
+    (message (format "Added module: %s" module-name))))
 
 (defun new-lang-module ()
-  "Create a new lang module temoplate."
+  "Create a new lang module template."
   (interactive)
   (let ((module-name (read-from-minibuffer "New lang module name: ")))
     (create-module module-name t)
-    (add-lang-module module-name)))
+    (add-lang-module module-name)
+    (message (format "Added lang module: %s" module-name))))
 
 (provide 'utils-funcs)
 ;;; util-funcs.el ends here

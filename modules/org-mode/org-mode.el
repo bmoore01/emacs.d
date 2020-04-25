@@ -21,7 +21,7 @@
    org-fontify-done-headline t
    org-fontify-quote-and-verse-blocks t
    org-fontify-whole-heading-line t
-   org-footnote-auto-label 'plain
+   org-footnote-auto-label t
    org-hide-emphasis-markers t
    org-hide-leading-stars-before-indent-mode t
    org-image-actual-width nil
@@ -34,13 +34,10 @@
    org-use-sub-superscripts t
    org-src-tab-acts-natively t
    ontline-blank-line t
-   org-startup-with-inline-images t
-   org-image-actual-width nil
    org-confirm-babel-evaluate nil
    org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELLED" "DELEGATED")))
 
-  (setq org-startup-with-inline-images t
-	org-imenu-depth 8
+  (setq org-imenu-depth 8
 	org-ellipsis "⤵")
   :hook
   (org-mode . (lambda ()

@@ -1,4 +1,4 @@
-;; core-keybinds.el --- Summary
+;; core-keybinds.el --- Keybinds i can't live without
 
 ;;; Commentary:
 ;;; All the keybindings that are essential to how I use Emacs.
@@ -36,7 +36,10 @@
 
 (buffer-leader-def
  :keymaps 'normal
- "b" 'ivy-switch-buffer
+ "b" '(lambda () (interactive) (if (projectile-project-p)
+				   (call-interactively 'counsel-projectile-switch-to-buffer)
+				 (call-interactively 'ivy-switch-buffer)))
+ "B" 'ivy-switch-buffer
  ;; home
  "s" 'switch-to-scratch-buffer
  "N" 'new-empty-buffer
@@ -45,10 +48,6 @@
  "p" 'previous-buffer
  "]" 'next-buffer
  "[" 'previous-buffer)
-
-;; searching
-(general-nmap
-  "M-f" 'occur)
 
 ;; open things bindings
 (general-create-definer open-leader-def
@@ -60,7 +59,6 @@
  "e" 'eshell-toggle
  "i" 'elisp-repl-toggle
  "s" 'shell-pop)
- ;;"s" 'shell-toggle) ;; rip my shell toggle, hope I can find a fix for this someday D:
 
 ;; file key bindings
 (general-create-definer file-leader-def
@@ -107,7 +105,8 @@
  "C-j" 'ivy-next-line
  "C-k" 'ivy-previous-line
  "C-d" 'ivy-scroll-down-command
- "C-u" 'ivy-scroll-up-command)
+ "C-u" 'ivy-scroll-up-command
+ "TAB" 'ivy-partial-or-done)
 
 (general-define-key
  :keymaps 'ivy-switch-buffer-map
@@ -121,8 +120,21 @@
  :states '(normal visual)
  "TAB" 'indent-region
  "M-1" 'neotree-show
+ "/" 'counsel-grep-or-swiper
+ "?" 'counsel-grep-or-swiper-backward
  "C-a" 'evil-numbers/inc-at-pt
- "C-x" 'evil-numbers/dec-at-pt)
+ "C-x" 'evil-numbers/dec-at-pt
+ "M-1" 'eyebrowse-switch-to-window-config-1
+ "M-2" 'eyebrowse-switch-to-window-config-2
+ "M-3" 'eyebrowse-switch-to-window-config-3
+ "M-4" 'eyebrowse-switch-to-window-config-4
+ "M-5" 'eyebrowse-switch-to-window-config-5
+ "M-6" 'eyebrowse-switch-to-window-config-6
+ "M-7" 'eyebrowse-switch-to-window-config-7
+ "M-8" 'eyebrowse-switch-to-window-config-8
+ "M-9" 'eyebrowse-switch-to-window-config-9)
+ ;;"M-s-right" 'eyebrowse-next-window-config
+ ;;"M-s-left" 'eyebrowse-prev-window-config)
 
 (provide 'core-keybinds)
 ;;; core-keybinds.el ends here

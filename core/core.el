@@ -68,7 +68,7 @@
 	  (lambda ()
 	    (setq eshell-command-aliases-list my-eshell-aliases)))
 
-;; disable messages buffer (comment these lines out for debugging)
+;; disable messages buffer
 (setq-default message-log-max nil)
 (kill-buffer "*Messages*")
 
@@ -111,6 +111,7 @@
 				      mode-line-format nil
 				      left-margin-width 2)
 				     (set-window-buffer nil (current-buffer))))
+  (setq neo-window-width 32)
   :custom
   (neo-hide-cursor t)
   (neo-auto-indent-point t)
@@ -125,7 +126,7 @@
   (setq ivy-display-style nil
 	ivy-use-virtual-buffers t
 	ivy-initial-inputs-alist nil
-	ivy-count-format "[%d/%d]"))
+	ivy-count-format "(%d/%d) "))
 
 ;; put back after black screen bug is fixed with mac maybe
 ;;(use-package ivy-posframe
@@ -150,36 +151,45 @@
   (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
         '(ivy-switch-buffer
           (:columns
+           ;;((ivy-rich-switch-buffer-icon (:width 2))
+           ;; (ivy-rich-candidate (:width 35))
+           ;; (ivy-rich-switch-buffer-project (:width 15 :face success))
+           ;; (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
            ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 35))
-            (ivy-rich-switch-buffer-project (:width 15 :face success))
-            (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
+            (ivy-rich-candidate)
+            (ivy-rich-switch-buffer-project (:face success))
+            (ivy-rich-switch-buffer-major-mode (:face warning)))
            :predicate
            (lambda (cand) (get-buffer cand)))
           counsel-M-x
           (:columns
-           ((counsel-M-x-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+           ((counsel-M-x-transformer (:width 40))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
           counsel-describe-function
           (:columns
            ((counsel-describe-function-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
           counsel-describe-variable
           (:columns
            ((counsel-describe-variable-transformer (:width 35))
-            (ivy-rich-counsel-variable-docstring (:width 34 :face font-lock-doc-face))))
+            (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
           package-install
           (:columns
            ((ivy-rich-candidate (:width 25))
-            (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
-            (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
-            (ivy-rich-package-install-summary (:width 23 :face font-lock-doc-face))))))
+            (ivy-rich-package-version (:face font-lock-comment-face))
+            (ivy-rich-package-archive-summary (:face font-lock-builtin-face))
+            (ivy-rich-package-install-summary (:face font-lock-doc-face))))))
   :config
   (ivy-rich-mode +1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 (use-package counsel)
 (use-package swiper)
+
+(use-package eyebrowse
+  :config
+  (eyebrowse-mode t)
+  (setq eyebrowse-new-workspace t))
 
 (use-package shell-pop
   :config
