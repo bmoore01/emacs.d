@@ -157,13 +157,19 @@
 	(neotree-select-up-node))
       (neotree-select-up-node))))
 
-(defun create-popup (fname buf-name popup-func height select)
+;;; shamelessly stolen from shell-pop
+(defun create-popup--calculate-window-size (popup-window-size)
+  "Calculates height for window taking `POPUP-WINDOW-SIZE' which is a percentage and returning the actual height of the window."
+  (let* ((win (frame-root-window))
+         (size (window-height win)))
+    (round (* size (/ (- 100 popup-window-size) 100.0)))))
+
+(defun create-popup (fname popup-func height select)
   "Created a popup window of height HEIGHT which is stored in FNAME, will call create buffer BUF-NAME and call POPUP-FUNC in the new window."
   (if (not (get fname 'state))
-      (let ((win (split-window (frame-root-window) height)))
+      (let ((win (split-window (frame-root-window) (create-popup--calculate-window-size height))))
 	(when 'select
 	  (select-window win))
-	(get-buffer-create buf-name)
 	(funcall popup-func)
 	(put fname 'state win))
     (progn
@@ -191,10 +197,7 @@
   (if (not (get :smart-shell-toggle 'state))
       (let* ((buffer (get-buffer-create "Terminal"))
 	     (win (display-buffer-in-side-window buffer `((window-height . 12)))))
-	;;(shell buffer)
-	;;(term "/bin/zsh")
 	(ansi-term "/bin/zsh" buffer)
-	;;(set-frame-font "MesloLGS NF")
 	(put :smart-shell-toggle 'state win))
     (progn
       (let ((win (get :smart-shell-toggle 'state)))
@@ -206,13 +209,13 @@
   "Togle the opening of eshell popup-window."
   (interactive)
   (create-popup
-   'eshell-toggle "eshell" 'eshell -10 t))
+   'eshell-toggle 'eshell pop-toggle-size t))
 
 (defun elisp-repl-toggle ()
   "Togle the opening of ielm repl popup-window."
   (interactive)
   (create-popup
-   'ielm-toggle "repl" 'ielm -10 t))
+   'ielm-toggle 'ielm pop-toggle-size t))
 
 (defun initialise-core ()
   "Start the configuration."

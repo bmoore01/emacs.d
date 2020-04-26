@@ -111,8 +111,8 @@
 ;; TODO: add some of these sweet snippets
 (use-package yasnippet)
 
-;; TODO: add evil magit
 (use-package magit)
+(use-package evil-magit)
 
 (require 'ide-keybinds)
 (provide 'ide)

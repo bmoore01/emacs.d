@@ -1,5 +1,6 @@
 ;;; core.el --- The loader of modules -*- lexical-binding:t -*-
 ;;; Commentary:
+;;; Might factor window popup into a seperate package for use at some point but until then it's going to live in here.
 ;;; Code:
 (require 'core-funcs)
 
@@ -78,6 +79,14 @@
          (let ((buffer "*Completions*"))
            (and (get-buffer buffer)
             (kill-buffer buffer)))))
+
+(defcustom pop-toggle-size 30
+  "Percentage for popup window size."
+  :type '(restricted-sexp
+          :match-alternatives
+          ((lambda (x) (and (integerp x)
+                            (<= x 100)
+                            (<= 0 x))))))
 
 (use-package evil
   :init
@@ -200,9 +209,6 @@
   (custom-set-variables
    '(shell-pop-full-span t)
    '(shell-pop-window-size 30)))
-
-;;(use-package persp-mode
-;;  :hook (after-init . (lambda () (persp-mode 1))))
 
 (require 'core-keybinds)
 (add-all-modules)

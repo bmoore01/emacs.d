@@ -132,9 +132,10 @@
  "M-6" 'eyebrowse-switch-to-window-config-6
  "M-7" 'eyebrowse-switch-to-window-config-7
  "M-8" 'eyebrowse-switch-to-window-config-8
- "M-9" 'eyebrowse-switch-to-window-config-9)
- ;;"M-s-right" 'eyebrowse-next-window-config
- ;;"M-s-left" 'eyebrowse-prev-window-config)
+ "M-9" 'eyebrowse-switch-to-window-config-9
+ "M-s-<right>" 'eyebrowse-next-window-config
+ "M-s-<left>" 'eyebrowse-prev-window-config
+ "M-W" 'eyebrowse-close-window-config)
 
 (provide 'core-keybinds)
 ;;; core-keybinds.el ends here

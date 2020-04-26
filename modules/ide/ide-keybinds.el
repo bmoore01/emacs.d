@@ -1,6 +1,6 @@
 ;; ide-keybinds.el --- Summary
 
-;;;Code:
+;;; Code:
 ;; projectile key bindings
 (general-create-definer projectile-leader-def
   :prefix "SPC p")
@@ -20,6 +20,10 @@
   :keymaps 'company-mode-map
   "C-j" 'company-select-next
   "C-k" 'company-select-previous)
+
+(open-leader-def
+ :keymaps 'normal
+ "g" 'magit-status)
 
 ;; toggle keybinds
 (general-create-definer toggle-leader-def

@@ -7,8 +7,9 @@
 ** TODO Add stack for jumping forward and back between previous locations like intelliJ going to need some serious coding on this one 
 ** TODO Add jump to definition unless at a definition then jump to usages
 * TODO ZOOM make it like dooms zoom (zoom modeline)
+* TODO Fork Shellpop into my own library for popping all sorts of windows 
 * TODO Auto generate project and design docs
-* TODO GIT/MAGIT
+* DONE GIT/MAGIT
 * IN-PROGRESS workspaces with eyebrows & desktop.el
 ** DONE Setup Eyebrowse
 ** TODO Setup Desktop.el
