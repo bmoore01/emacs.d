@@ -1,9 +1,16 @@
-;;; org-mode-keybinds.el --- Summary
+;;; org-mode-keybinds.el --- Keybinds for org-mode
 ;;; Commentary:
 ;;; Code:
 
-(general-create-definer agenda-leader-def
-  :prefix "SPC a")
+(general-define-key
+ :prefix "C-c")
+
+(general-define-key
+ :keymaps 'evil-org-mode-map
+ :major-modes 'org-mode
+ :states '(normal visual)
+ "c" 'org-capture
+ "C-t" 'org-todo)
 
 (general-define-key
  :keymaps 'evil-org-mode-map
@@ -11,10 +18,9 @@
  :states '(normal visual)
  "TAB" 'org-cycle
  "RET" 'org-open-at-point
- "-" 'org-cycle-list-bullet
- "t" 'org-todo)
+ "-" 'org-cycle-list-bullet)
 
-(agenda-leader-def
+(open-leader-def
  :states '(normal visual)
  "a" 'org-agenda-list)
 

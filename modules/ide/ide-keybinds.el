@@ -1,4 +1,4 @@
-;; ide-keybinds.el --- Summary
+;;; ide-keybinds.el -*- lexical-binding:t -*-
 
 ;;; Code:
 ;; projectile key bindings
@@ -79,8 +79,9 @@
 
 (general-nmap
   :keymaps 'lsp-mode-map
-  "M-s-b" 'lsp-find-implementation
-  "M-b" 'lsp-find-definition)
+  "M-s-b" 'lsp-ui-peek-find-implementation
+  "M-s-r" 'lsp-ui-peek-find-references
+  "M-b" 'lsp-ui-peek-find-definitions)
 
 ;;    (define-key map "\e\e\e" 'lsp-ui-peek--abort)
 ;;    (define-key map "\C-g" 'lsp-ui-peek--abort)

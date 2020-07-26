@@ -1,4 +1,4 @@
-;; ide --- Summary
+;; ide --- all things trying to replicate IDE features -*- lexical-binding:t -*-
 ;; This module provides all the ide-like functionality in my emacs config
 ;; lsp for language server interactions
 ;; projectile for project management
@@ -11,8 +11,8 @@
 ;;; Code:
 (require 'ide-funcs)
 
-(setq gdb-many-windows t
-      gdb-show-main t)
+(defvar gdb-many-windows t)
+(defvar gdb-show-main t)
 
 (use-package projectile
   :config
@@ -28,7 +28,9 @@
   (counsel-projectile-mode))
 
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config
+  (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
 (use-package company
   :hook (prog-mode . global-company-mode))

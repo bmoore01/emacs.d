@@ -1,6 +1,5 @@
-;;; util-funcs.el --- Summary
+;;; util-funcs.el --- general utils which don't need to be in core -*- lexical-binding:t -*-
 ;;; Commentary:
-;;; change create module to use `add-all-modules' or create add-module function which would require refactoring add-all modules to use it too
 ;;; Code:
 
 (defvar modules-dir)

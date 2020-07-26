@@ -1,7 +1,7 @@
 ;; core-keybinds.el --- Keybinds i can't live without
 
 ;;; Commentary:
-;;; All the keybindings that are essential to how I use Emacs.
+;;; Could potentially extract out ivy stuff and even window stuff
 
 ;;; Code:
 

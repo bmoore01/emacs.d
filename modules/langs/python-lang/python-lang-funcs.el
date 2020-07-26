@@ -1,6 +1,6 @@
 ;;; python-lang-funcs.el --- Summary
 ;;; Commentary:
-;; Will need rewriting if I redo create-popup which i'd really like to
+;; Will need rewriting if I redo create-popup which I'd like to
 ;;; Code:
 
 (defmacro check-python-running (func)

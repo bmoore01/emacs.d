@@ -40,7 +40,7 @@
     x))
 
 (defun clean-dir-files (path)
-  "Return contents of a directory  at PATH without . and .."
+  "Return contents of a directory at PATH without . and .."
   (remove-sublist-from-list '(".." ".") (directory-files path)))
 
 (defun recompile-config-modules ()
@@ -168,7 +168,7 @@
   "Created a popup window of height HEIGHT which is stored in FNAME, will call create buffer BUF-NAME and call POPUP-FUNC in the new window."
   (if (not (get fname 'state))
       (let ((win (split-window (frame-root-window) (create-popup--calculate-window-size height))))
-	(when 'select
+	(when select
 	  (select-window win))
 	(funcall popup-func)
 	(put fname 'state win))

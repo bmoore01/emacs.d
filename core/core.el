@@ -42,8 +42,9 @@
       ring-bell-function 'ignore
       kept-new-versions 6
       kept-old-versions 2
-      version-control t
-      use-package-always-ensure t)
+      version-control t)
+
+(defvar use-package-always-ensure t)
 
 (defvar scratch-mode 'lisp-interaction-mode
   "Default major mode of the scratch buffer.")
@@ -67,7 +68,7 @@
 
 (add-hook 'eshell-alias-load-hook
 	  (lambda ()
-	    (setq eshell-command-aliases-list my-eshell-aliases)))
+	    (defvar eshell-command-aliases-list my-eshell-aliases)))
 
 ;; disable messages buffer
 (setq-default message-log-max nil)

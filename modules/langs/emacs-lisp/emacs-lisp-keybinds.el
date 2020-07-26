@@ -22,6 +22,7 @@
  :states '(normal visual)
  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
  "f" 'counsel-describe-function
+ "k" 'counsel-descbinds
  "v" 'counsel-describe-variable)
 
 (provide 'emacs-lisp-keybinds)

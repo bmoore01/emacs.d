@@ -8,20 +8,17 @@
 ** TODO Add jump to definition unless at a definition then jump to usages
 * TODO ZOOM make it like dooms zoom (zoom modeline)
 * TODO Fork Shellpop into my own library for popping all sorts of windows 
-* TODO Auto generate project and design docs
 * DONE GIT/MAGIT
-* IN-PROGRESS workspaces with eyebrows & desktop.el
+* TODO workspaces with eyebrows & desktop.el
 ** DONE Setup Eyebrowse
-** TODO Setup Desktop.el
+** TODO Setup Desktop.el (look at how spacemacs does it)
 * TODO dap mode
 * TODO yasnippet
 * TODO IRC/Email
-* TODO org mode
+* TODO org mode [2/5]
 ** TODO calendar
 ** TODO agenda
 ** TODO jira
-** TODO hydra for todos
-** TODO fix the damn UI
+** DONE hydra for todos
+** DONE fix the damn UI
 * TODO projectile compilation
-* TODO auto project gen scripts
-* TODO init macro
