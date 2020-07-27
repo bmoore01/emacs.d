@@ -55,10 +55,7 @@
 
 (open-leader-def
  :keymaps 'normal
- "t" 'neotree-toggle
- "e" 'eshell-toggle
- "i" 'elisp-repl-toggle
- "s" 'shell-pop)
+ "t" 'neotree-toggle)
 
 ;; file key bindings
 (general-create-definer file-leader-def

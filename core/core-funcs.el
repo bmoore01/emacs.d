@@ -5,7 +5,7 @@
 ;;; then can create macro for the init file which shows which files to include
 ;;; Code:
 
-;; defvars to avoid free vaible error
+;; defvars to avoid free variable error
 (defvar modules-dir)
 (defvar langs-dir)
 (defvar scratch-mode)
@@ -15,10 +15,10 @@
   (require 'package)
   (setq package-enable-at-startup nil)
   (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-				   ("gnu"       . "http://elpa.gnu.org/packages/")
-				   ("melpa-stable"     . "http://stable.melpa.org/packages/")
-				   ("melpa"     . "http://melpa.milkbox.net/packages/")
-				   ("marmalade" . "http://marmalade-repo.org/packages/")))
+			   ("gnu"       . "http://elpa.gnu.org/packages/")
+			   ("melpa-stable"     . "http://stable.melpa.org/packages/")
+			   ("melpa"     . "http://melpa.milkbox.net/packages/")
+			   ("marmalade" . "http://marmalade-repo.org/packages/")))
 
   (package-initialize)
   (unless (package-installed-p 'use-package) ; unless it is already installed
@@ -50,7 +50,6 @@
     (mapcar (lambda (x)
 	      (byte-recompile-directory (concat prefix x) 0))
 	    (clean-dir-files prefix))))
-
 
 (defun new-empty-buffer ()
   "Create a new buffer called untitled(<n>)."
@@ -107,7 +106,6 @@
   (add-hook 'emacs-startup-hook (lambda ()
 	      (setq gc-cons-threshold 800000))))
 
-
 ;; TODO: Add regex to skip any buffer surrounded by asterisks
 (defvar my-skippable-buffers '("*Messages*" "*Completions*" "*Help*" "*Buffer List*" "Shell-popup")
   "Buffer names ignored by `next-buffer' and `previous-buffer'.")
@@ -156,66 +154,6 @@
 	      (neotree-collapse))
 	(neotree-select-up-node))
       (neotree-select-up-node))))
-
-;;; shamelessly stolen from shell-pop
-(defun create-popup--calculate-window-size (popup-window-size)
-  "Calculates height for window taking `POPUP-WINDOW-SIZE' which is a percentage and returning the actual height of the window."
-  (let* ((win (frame-root-window))
-         (size (window-height win)))
-    (round (* size (/ (- 100 popup-window-size) 100.0)))))
-
-(defun create-popup (fname popup-func height select)
-  "Created a popup window of height HEIGHT which is stored in FNAME, will call create buffer BUF-NAME and call POPUP-FUNC in the new window."
-  (if (not (get fname 'state))
-      (let ((win (split-window (frame-root-window) (create-popup--calculate-window-size height))))
-	(when select
-	  (select-window win))
-	(funcall popup-func)
-	(put fname 'state win))
-    (progn
-      (let ((win (get fname 'state)))
-	(delete-window win)
-	(put fname 'state nil)))))
-
-(defun shell-toggle ()
-  "Open a dumb shell in a popup in a buffer."
-  (interactive)
-  (if (not (get :shell-toggle 'state))
-      (let* ((buffer (get-buffer-create "Shell-popup"))
-	     (win (display-buffer-in-side-window buffer `((window-height . 12)))))
-	(shell buffer)
-	(set-frame-font "MesloLGS NF")
-	(put :shell-toggle 'state win))
-    (progn
-      (let ((win (get :shell-toggle 'state)))
-	(delete-window win)
-	(put :shell-toggle 'state nil)))))
-
-(defun smart-shell-toggle ()
-  "Open a smarter shell using term mode in a popup window."
-  (interactive)
-  (if (not (get :smart-shell-toggle 'state))
-      (let* ((buffer (get-buffer-create "Terminal"))
-	     (win (display-buffer-in-side-window buffer `((window-height . 12)))))
-	(ansi-term "/bin/zsh" buffer)
-	(put :smart-shell-toggle 'state win))
-    (progn
-      (let ((win (get :smart-shell-toggle 'state)))
-	(delete-window win)
-	(put :smart-shell-toggle 'state nil)))))
-(add-hook 'term-mode-hook (lambda () (set-frame-font "MesloLGS NF")))
-
-(defun eshell-toggle ()
-  "Togle the opening of eshell popup-window."
-  (interactive)
-  (create-popup
-   'eshell-toggle 'eshell pop-toggle-size t))
-
-(defun elisp-repl-toggle ()
-  "Togle the opening of ielm repl popup-window."
-  (interactive)
-  (create-popup
-   'ielm-toggle 'ielm pop-toggle-size t))
 
 (defun initialise-core ()
   "Start the configuration."

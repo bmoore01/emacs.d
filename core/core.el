@@ -55,21 +55,6 @@
 ;; show line numbers only in code buffers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-(defvar my-eshell-aliases
-  '(("q"  "exit")           ; built-in
-    ("f"  "find-file $1")
-    ("bd" "eshell-up $1")
-    ("rg" "rg --color=always $*")
-    ("ag" "ag --color=always $*")
-    ("l"  "ls -lh")
-    ("ll" "ls -lah")
-    ("clear" "clear-scrollback")
-    ("c" "clear-scrollback")))
-
-(add-hook 'eshell-alias-load-hook
-	  (lambda ()
-	    (defvar eshell-command-aliases-list my-eshell-aliases)))
-
 ;; disable messages buffer
 (setq-default message-log-max nil)
 (kill-buffer "*Messages*")
@@ -80,14 +65,6 @@
          (let ((buffer "*Completions*"))
            (and (get-buffer buffer)
             (kill-buffer buffer)))))
-
-(defcustom pop-toggle-size 30
-  "Percentage for popup window size."
-  :type '(restricted-sexp
-          :match-alternatives
-          ((lambda (x) (and (integerp x)
-                            (<= x 100)
-                            (<= 0 x))))))
 
 (use-package evil
   :init
@@ -131,7 +108,6 @@
 
 (use-package ivy
   :config
-
   (ivy-mode 1)
   (setq ivy-display-style nil
 	ivy-use-virtual-buffers t
@@ -200,16 +176,6 @@
   :config
   (eyebrowse-mode t)
   (setq eyebrowse-new-workspace t))
-
-(use-package shell-pop
-  :config
-  (setq shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
-  (setq shell-pop-term-shell "/bin/zsh")
-  ;; need to do this manually or not picked up by `shell-pop'
-  (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type)
-  (custom-set-variables
-   '(shell-pop-full-span t)
-   '(shell-pop-window-size 30)))
 
 (require 'core-keybinds)
 (add-all-modules)

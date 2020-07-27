@@ -6,7 +6,7 @@
 (defvar langs-dir)
 
 (defun create-module-file (module-name &optional type lang)
-  "Create a temoplate file for a module with the name MODULE-NAME TYPE.
+  "Create a template file for a module with the name MODULE-NAME TYPE.
 MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil value will create template file in the langs directory."
   (let* ((file-name (if (eq type nil)
 			module-name
@@ -20,7 +20,7 @@ MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil va
       (make-directory module-path))
 
     (with-temp-file file-with-path
-      (insert (format ";;; %s.el --- Summary\n;;; Commentary:\n" file-name))
+      (insert (format ";;; %s.el --- Summary -*- lexical-binding:t -*-\n;;; Commentary:\n" file-name))
 
       (when (or (eq type "keybinds") (eq type "funcs"))
     	(insert (format ";;; All the %s for the %s module.\n" type module-name)))
@@ -37,9 +37,10 @@ MODULE-NAME can be set to \"keybinds\" or \"funcs\" if LANG is set to non-nil va
 
 (defun create-module (module-name &optional lang)
   "Create all the templates nessecary for creating a module withe name MODULE-NAME if LANG is non-nil will create a language module."
-  (let ((main (create-module-file module-name nil lang))
-	(keybinds (create-module-file module-name "keybinds" lang))
-	(funcs (create-module-file module-name "funcs" lang)))))
+  (progn
+    (create-module-file module-name nil lang)
+    (create-module-file module-name "keybinds" lang)
+    (create-module-file module-name "funcs" lang)))
 
 (defun new-module ()
   "Create a new module template and add to load path."
