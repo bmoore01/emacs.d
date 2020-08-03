@@ -1,4 +1,4 @@
-;;; core-funcs.el -- Vial functions for conf -*- lexical-binding:t -*-
+;;; core-funcs.el -- Vital functions for conf -*- lexical-binding:t -*-
 ;;; functions required for the initialization and compilation of my emacs config
 ;;; Commentary:
 ;;; need to refactor `add-all-modules' to be able to exclude modules to avoid janky implementation
@@ -89,30 +89,29 @@
 ;;;###autoload
 (defun add-all-modules (&optional excluded)
   "Add all modules in the `modules-dir' to the `load-path', execpt any listed in EXCLUDED."
-  (mapc (lambda (x) (add-module x))
-	  ;; don't include langs twice add utils manually
-	  (remove-sublist-from-list '("langs" "utils") (clean-dir-files modules-dir)))
+  (mapc #'add-module
+  	  ;; don't include langs twice add utils manually
+  	  (remove-sublist-from-list
+	   (append '("langs" "utils") excluded)
+	   (clean-dir-files modules-dir)))
   (add-to-list 'load-path "util-funcs"))
 
 ;;;###autoload
 (defun add-langs ()
   "Add all modules in the `langs-dir' to the `load-path'."
-  (mapcar (lambda (x) (add-lang-module x))
-	  (clean-dir-files langs-dir)))
+  (mapcar #'add-lang-module (clean-dir-files langs-dir)))
 
-(defun raise-gc-on-init ()
-  "Set garbage collection to be higher on initialisation."
-  (setq gc-cons-threshold 50000000)
-  (add-hook 'emacs-startup-hook (lambda ()
-	      (setq gc-cons-threshold 800000))))
+(defun emacs-special-buffer-name-p (name)
+  "If NAME is surrounded by asterisks return t otherwise return nil."
+  (if (string-match-p "\\*.*\\*" name)
+      t))
 
-;; TODO: Add regex to skip any buffer surrounded by asterisks
-(defvar my-skippable-buffers '("*Messages*" "*Completions*" "*Help*" "*Buffer List*" "Shell-popup")
+(defvar my-skippable-buffers '("Shell-popup")
   "Buffer names ignored by `next-buffer' and `previous-buffer'.")
 
 (defun my-buffer-predicate (buffer)
-  "Tell `next-buffer' and `previous-buffer' to skip the BUFFER if its name is listed in `my-skippable-buffers'."
-  (if (member (buffer-name buffer) my-skippable-buffers)
+  "Tell `next-buffer' and `previous-buffer' to skip the BUFFER if it's name is listed in `my-skippable-buffers' or is an EMACS special buffer."
+  (if (or (emacs-special-buffer-name-p (buffer-name buffer)) (member (buffer-name buffer) my-skippable-buffers))
       nil
     t))
 (set-frame-parameter nil 'buffer-predicate 'my-buffer-predicate)
@@ -154,12 +153,6 @@
 	      (neotree-collapse))
 	(neotree-select-up-node))
       (neotree-select-up-node))))
-
-(defun initialise-core ()
-  "Start the configuration."
-  (progn
-    (raise-gc-on-init)
-    (setup-use-package)))
 
 (defun split-window-and-follow-horizontally ()
   "Split window right and select new window."

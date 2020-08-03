@@ -29,18 +29,12 @@
   :prefix "SPC b"
   :which-key "buffer")
 
-(general-define-key
- :states '(normal visual)
-  "M-]" 'next-buffer :which-key "next buffer"
-  "M-[" 'previous-buffer :which-key "previous buffer")
-
 (buffer-leader-def
  :keymaps 'normal
  "b" '(lambda () (interactive) (if (projectile-project-p)
 				   (call-interactively 'counsel-projectile-switch-to-buffer)
 				 (call-interactively 'ivy-switch-buffer)))
  "B" 'ivy-switch-buffer
- ;; home
  "s" 'switch-to-scratch-buffer
  "N" 'new-empty-buffer
  "d" 'kill-current-buffer
@@ -80,8 +74,8 @@
  "q" 'neotree-hide
  "RET" 'neotree-enter
  "TAB" 'neotree-stretch-toggle
- "|" 'neotree-enter-vertical-split
- "-" 'neotree-enter-horizontal-split
+ "v" 'neotree-enter-vertical-split
+ "s" 'neotree-enter-horizontal-split
  "'" 'neotree-quick-look
  "K" 'neotree-select-up-node
  "c" 'neotree-create-node
@@ -106,7 +100,7 @@
  "TAB" 'ivy-partial-or-done)
 
 (general-define-key
- :keymaps 'ivy-switch-buffer-map
+ :keymaps '(ivy-switch-buffer-map counsel-projectile-switch-to-buffer)
  "C-d" 'ivy-switch-buffer-kill)
 
 (general-nmap
@@ -117,10 +111,13 @@
  :states '(normal visual)
  "TAB" 'indent-region
  "M-1" 'neotree-show
- "/" 'counsel-grep-or-swiper
+ "M-f" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper-backward
  "C-a" 'evil-numbers/inc-at-pt
  "C-x" 'evil-numbers/dec-at-pt
+ "M-]" 'next-buffer :which-key "next buffer"
+ "M-[" 'previous-buffer :which-key "previous buffer"
+ ;; eyebrowse keybinds
  "M-1" 'eyebrowse-switch-to-window-config-1
  "M-2" 'eyebrowse-switch-to-window-config-2
  "M-3" 'eyebrowse-switch-to-window-config-3

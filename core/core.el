@@ -4,24 +4,23 @@
 ;;; Code:
 (require 'core-funcs)
 
-;; make sure this is where you cloned your config otherwise bad news
+;; this has to be called first before anything
+;; as use-package is used pretty much everywhere
+(setup-use-package)
+
+;; set global constants
 (defconst modules-dir (concat user-emacs-directory "modules/"))
 (defconst langs-dir (concat modules-dir "langs/"))
-;; this has to be called first before anything
-(initialise-core)
+(defconst user-secrets-dir (concat user-emacs-directory "private/")
+  "Secrets directory for all things that shouldn't be uploaded to git, passwords, privte keys etc.")
 
 ;; set defaults
 (setq-default
  cursor-type 'bar
  explicit-shell-file-name "/bin/zsh"
- eshell-path-env (concat "~/.zshrc")
- create-lockfiles nil
- make-backup-files nil
  compilation-always-kill t
  compilation-scroll-output t
  show-paren-delay 0
- ;; secrets dir for passwords etc
- user-secrets-dir "~/.emacs.d/private/"
  evil-want-C-u-scroll t)
 
 ;; set shell env for eshell
@@ -31,13 +30,14 @@
 (add-path-string-to-exec-path
  "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:usr/local/opt/llvm/bin:/usr/bin")
 
+;; replace all yes or no prompts with y/n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;;(add-to-list 'exec-path "/usr/local/bin")
-
 ;; avoid making a mess in the filesystem
-(setq backup-by-copying t
-      backup-directory-alist '((".*" . "~/.emacs.d/backups/"))
+(setq create-lockfiles nil
+      make-backup-files nil
+      backup-by-copying t
+      backup-directory-alist '(("." . (concat user-emacs-directory "backups/")))
       delete-old-versions t
       ring-bell-function 'ignore
       kept-new-versions 6
@@ -59,7 +59,7 @@
 (setq-default message-log-max nil)
 (kill-buffer "*Messages*")
 
-;; Disabled *Completions* buffer
+;; Disable *Completions* buffer
 (add-hook 'minibuffer-exit-hook
       '(lambda ()
          (let ((buffer "*Completions*"))

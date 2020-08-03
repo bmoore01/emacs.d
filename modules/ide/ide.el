@@ -51,7 +51,7 @@
 
 (use-package lsp-mode
   :commands lsp
-  :hook (prog-mode . lsp)
+  :hook ((prog-mode . lsp))
   :custom
   (lsp-auto-guess-root nil)
   (lsp-print-io nil)
@@ -100,6 +100,9 @@
    lsp-ui-sideline-enable nil
    lsp-ui-sideline-ignore-duplicate t
    lsp-ui-doc-enable nil))
+
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
 
 (use-package dap-mode
   :config
