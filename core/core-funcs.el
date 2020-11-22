@@ -13,11 +13,12 @@
 (defun setup-use-package ()
   "Setup the package archives and install use-package."
   (require 'package)
-  (setq package-enable-at-startup nil)
+  (setq package-enable-at-startup nil
+	use-package-always-ensure t) ;; So I dont need to put :ensure t in every package
   (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
 			   ("gnu"       . "http://elpa.gnu.org/packages/")
 			   ("melpa-stable"     . "http://stable.melpa.org/packages/")
-			   ("melpa"     . "http://melpa.milkbox.net/packages/")
+			   ("melpa"     . "http://melpa.org/packages/")
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
 
   (package-initialize)

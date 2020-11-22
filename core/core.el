@@ -44,8 +44,6 @@
       kept-old-versions 2
       version-control t)
 
-(defvar use-package-always-ensure t)
-
 (defvar scratch-mode 'lisp-interaction-mode
   "Default major mode of the scratch buffer.")
 
