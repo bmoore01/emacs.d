@@ -4,6 +4,7 @@
 auto-save-list/
 backups/
 bookmarks
+.cache/
 elpa/
 eshell/
 eclipse.jdt.ls/

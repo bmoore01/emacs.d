@@ -15,6 +15,10 @@
       inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
+;; add window divider
+(setq window-divider-default-bottom-width 1
+      window-divider-default-places 'bottom-only)
+
 ;; split windows for popups vertically
 (setq split-width-threshold nil)
 
@@ -33,13 +37,14 @@
 (use-package doom-themes)
 (use-package all-the-icons)
 (use-package all-the-icons-ivy
-  :hook (after-init. all-the-icons-ivy-setup))
-(use-package doom-modeline :config (doom-modeline-mode))
+  :hook (after-init . all-the-icons-ivy-setup))
+
+(use-package doom-modeline
+  :config (doom-modeline-mode))
 
 (use-package git-gutter
   :ensure git-gutter-fringe
-  :hook ((prog-mode . git-gutter-mode)
-         (org-mode . git-gutter-mode)))
+  :hook (prog-mode . git-gutter-mode))
 
 ;;(use-package all-the-icons-dired
 ;;  :ensure t
@@ -64,6 +69,8 @@
 ;;  ("C-S-<tab>" . centaur-tabs-backward)
 ;;  ("C-<tab>" . centaur-tabs-forward))
 
+(use-package rainbow-mode
+  :defer t)
 
 (use-package dashboard
   :hook
@@ -78,8 +85,7 @@
 		     (projects . 5))))
 
 
-(defvar ui-themes-to-cycle '(doom-moonlight doom-solarized-light))
-;;(defvar ui-themes-to-cycle '(kaolin-galaxy kaolin-valley-light))
+(defvar ui-themes-to-cycle '(doom-moonlight spacemacs-light))
 
 (load-theme 'doom-moonlight t nil)
 (doom-themes-visual-bell-config)

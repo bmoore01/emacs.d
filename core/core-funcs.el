@@ -4,6 +4,7 @@
 ;;; need to refactor `add-all-modules' to be able to exclude modules to avoid janky implementation
 ;;; then can create macro for the init file which shows which files to include
 ;;; Code:
+(require 'cl-lib)
 
 ;; defvars to avoid free variable error
 (defvar modules-dir)
@@ -15,10 +16,10 @@
   (require 'package)
   (setq package-enable-at-startup nil
 	use-package-always-ensure t) ;; So I dont need to put :ensure t in every package
-  (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-			   ("gnu"       . "http://elpa.gnu.org/packages/")
-			   ("melpa-stable"     . "http://stable.melpa.org/packages/")
-			   ("melpa"     . "http://melpa.org/packages/")
+  (setq package-archives '(("org" . "http://orgmode.org/elpa/")
+			   ("gnu" . "http://elpa.gnu.org/packages/")
+			   ("melpa-stable" . "http://stable.melpa.org/packages/")
+			   ("melpa" . "http://melpa.org/packages/")
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
 
   (package-initialize)
@@ -27,22 +28,6 @@
     (package-install 'use-package)) ; and install the most recent version of use-package
   (require 'use-package))
 
-
-;; consider refactoring out helper functions into a core utils module that just sets up my own elisp stuff before starting the config
-;; consider even putting a small subset of core global functions in early-init.el
-(defun remove-sublist-from-list (to-remove lst)
-  "Remove all members of `TO-REMOVE' form `LST'.  For exmpale (remove-sublist-from list '(a b c) '(a b c d e f)) => '(d e f)."
-  (cl-remove-if (lambda (x) (member x to-remove)) lst))
-
-(defun concat-not-nil (x y)
-  "If X and Y are non nil concat them otherwise return X."
-  (if (and x y)
-      (concat x y)
-    x))
-
-(defun clean-dir-files (path)
-  "Return contents of a directory at PATH without . and .."
-  (remove-sublist-from-list '(".." ".") (directory-files path)))
 
 (defun recompile-config-modules ()
   "Byte compile everything in the `~/.emacs.d/modules/' directory."
@@ -116,6 +101,7 @@
       nil
     t))
 (set-frame-parameter nil 'buffer-predicate 'my-buffer-predicate)
+
 
 ;; stolen right out of spacemacs
 (defun neotree-expand-or-open ()

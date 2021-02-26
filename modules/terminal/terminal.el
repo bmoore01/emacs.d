@@ -14,9 +14,6 @@
   :custom
   (shell-pop-full-span t)
   (shell-pop-window-size 30))
-  ;;(custom-set-variables
-  ;; '(shell-pop-full-span t)
-  ;; '(shell-pop-window-size 30)))
 
 (defcustom pop-toggle-size 30
   "Percentage for popup window size."

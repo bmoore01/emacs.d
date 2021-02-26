@@ -17,7 +17,9 @@
     (display-line-numbers-mode)
     (put :my-linum-toggle 'state nil)))
 
+;;;###autoload
 (defun my-toggle-lsp-ui-doc ()
+  "A toggle for lsp ui doc if lsp ui doc is active disable it if it is disabled activate it."
   (interactive)
   (if lsp-ui-doc-mode
     (progn
@@ -25,7 +27,9 @@
       (lsp-ui-doc--hide-frame))
      (lsp-ui-doc-mode 1)))
 
+;;;###autoload
 (defun my-toggle-lsp-ui-imenu ()
+  "A toggle for lsp ui-imenu doc if imenu is open close it if it is close open it."
   (interactive)
   (if (not (get :my-toggle-lsp-ui-imenu 'state))
       (progn

@@ -32,6 +32,16 @@
     (add-to-list 'projectile-project-root-files "package.json")
     (add-to-list 'projectile-globally-ignored-directories "node_modules"))
 
+;; TODO probably move these to their own module if it grows to big
+(use-package solidity-mode)
+(use-package solidity-flycheck)
+(use-package company-solidity)
+
+(add-hook 'solidity-mode-hook
+	(lambda ()
+	(set (make-local-variable 'company-backends)
+		(append '((company-solidity company-capf company-dabbrev-code))
+			company-backends))))
 
 (use-package tide
   :after (typescript-mode company flycheck)
@@ -51,7 +61,6 @@
 
 ;; Enable eslint checker for web-mode
 (flycheck-add-mode 'javascript-eslint 'web-mode)
-
 
 (use-package add-node-modules-path)
 

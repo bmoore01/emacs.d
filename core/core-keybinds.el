@@ -1,18 +1,23 @@
-;; core-keybinds.el --- Keybinds i can't live without
+;; core-keybinds.el --- Keybinds I can't live without -*- lexical-binding:t -*-
 
 ;;; Commentary:
 ;;; Could potentially extract out ivy stuff and even window stuff
 
 ;;; Code:
+(require 'core-lib)
 
 ;; switch mac keybinds
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
+(global-set-key (kbd "C-M-u") 'universal-argument)
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 ;; window keybinds
-(general-create-definer window-leader-def
+(create-leader-key-prefix window-leader-def
   :prefix "SPC w"
-  :which-key "window")
+ :which-key "window")
 
 (window-leader-def
  :keymaps 'normal
@@ -25,7 +30,7 @@
  "h" 'evil-window-left)
 
 ;; buffer keybinds
-(general-create-definer buffer-leader-def
+(create-leader-key-prefix buffer-leader-def
   :prefix "SPC b"
   :which-key "buffer")
 
@@ -44,27 +49,31 @@
  "[" 'previous-buffer)
 
 ;; open things bindings
-(general-create-definer open-leader-def
-  :prefix "SPC o")
+(create-leader-key-prefix open-leader-def
+  :prefix "SPC o"
+  :which-key "open")
 
 (open-leader-def
  :keymaps 'normal
  "t" 'neotree-toggle)
 
 ;; file key bindings
-(general-create-definer file-leader-def
-  :prefix "SPC f")
+(create-leader-key-prefix file-leader-def
+  :prefix "SPC f"
+  :which-key "files")
 
  ;; TODO: add open emacs config as projectile project
 (file-leader-def
   :keymaps 'normal
   "f" 'counsel-find-file)
 
-(general-create-definer help-leader-def
-  :prefix "SPC h")
+(create-leader-key-prefix help-leader-def
+  :prefix "SPC h"
+  :which-key "help")
 
-(general-create-definer major-mode-leader-def
-  :prefix "SPC m")
+(create-leader-key-prefix major-mode-leader-def
+  :prefix "SPC m"
+  :which-key "major mode")
 
 ;; neotree keys
 (general-define-key
@@ -92,11 +101,8 @@
 ;; ivy keys
 (general-define-key
  :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
- "<escape>" 'minibuffer-keyboard-quit
  "C-j" 'ivy-next-line
  "C-k" 'ivy-previous-line
- "C-d" 'ivy-scroll-down-command
- "C-u" 'ivy-scroll-up-command
  "TAB" 'ivy-partial-or-done)
 
 (general-define-key

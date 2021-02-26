@@ -2,6 +2,7 @@
 ;;; Commentary:
 ;;; Might factor window popup into a seperate package for use at some point but until then it's going to live in here.
 ;;; Code:
+(require 'core-lib)
 (require 'core-funcs)
 
 ;; this has to be called first before anything
@@ -20,8 +21,7 @@
  explicit-shell-file-name "/bin/zsh"
  compilation-always-kill t
  compilation-scroll-output t
- show-paren-delay 0
- evil-want-C-u-scroll t)
+ show-paren-delay 0)
 
 ;; set shell env for eshell
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
@@ -43,6 +43,14 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
+
+;; smooth scrolling
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil)
+
+;; set tab width
+(setq tab-width 4)
+(setq evil-shift-width tab-width)
 
 (defvar scratch-mode 'lisp-interaction-mode
   "Default major mode of the scratch buffer.")
@@ -66,23 +74,57 @@
 
 (use-package evil
   :init
-  (evil-mode))
+  (setq evil-want-integration t
+	evil-want-keybinding nil
+	evil-want-C-u-scroll t
+	evil-respect-visual-line-mode t)
+  :hook
+  ((evil-mode . (lambda ()
+		  (dolist (mode '(custom-mode
+				  eshell-mode
+				  git-rebase-mode
+				  erc-mode
+				  term-mode))
+		  (add-to-list 'evil-emacs-state-modes mode)))))
+  :config
+  (evil-mode t)
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  ;;(evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  ;;(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  ;; Set initial state for some buffers that are insert by default
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+;;(use-package evil-collection
+;;  :after evil
+;;  :custom
+;;  (evil-collection-outline-bind-tab-p nil)
+;;  :config
+;;  (evil-collection-init))
 
 (use-package evil-surround
+  :diminish
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-numbers)
+(use-package evil-numbers
+  :diminish)
+
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 (use-package general
   :after evil
-  :config (general-evil-setup))
+  :config (general-evil-setup t))
 
 (use-package which-key
+  :diminish
   :init
   (which-key-mode))
 
-(use-package hydra)
+(use-package hydra
+  :defer 1)
 
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
@@ -105,25 +147,19 @@
   :commands neo-global--window-exists-p)
 
 (use-package ivy
-  :config
+  :diminish
+  :init
   (ivy-mode 1)
-  (setq ivy-display-style nil
+  :config
+  (setq ivy-wrap t
+	;;ivy-display-style nil
 	ivy-use-virtual-buffers t
 	ivy-initial-inputs-alist nil
 	ivy-count-format "(%d/%d) "))
 
-;; put back after black screen bug is fixed with mac maybe
-;;(use-package ivy-posframe
-;;  :after ivy
-;;  :diminish
-;;  :config
-;;  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
-;;        ivy-posframe-height-alist '((t . 20)))
-;;  (if (member "Source Code Variable" (font-family-list))
-;;      (setq ivy-posframe-parameters '((internal-border-width . 10) (font . "Source Code Variable-14:weight=regular")))
-;;    ivy-posframe-parameters '((internal-border-width . 10)))
-;;  (setq ivy-posframe-width 70)
-;;  (ivy-posframe-mode +1))
+(use-package ivy-hydra
+  :defer t
+  :after hydra)
 
 (use-package ivy-rich
   :preface
@@ -135,10 +171,6 @@
   (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
         '(ivy-switch-buffer
           (:columns
-           ;;((ivy-rich-switch-buffer-icon (:width 2))
-           ;; (ivy-rich-candidate (:width 35))
-           ;; (ivy-rich-switch-buffer-project (:width 15 :face success))
-           ;; (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
            ((ivy-rich-switch-buffer-icon (:width 2))
             (ivy-rich-candidate)
             (ivy-rich-switch-buffer-project (:face success))
@@ -164,11 +196,22 @@
             (ivy-rich-package-archive-summary (:face font-lock-builtin-face))
             (ivy-rich-package-install-summary (:face font-lock-doc-face))))))
   :config
-  (ivy-rich-mode +1)
+  (ivy-rich-mode 1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
-(use-package counsel)
+(use-package all-the-icons-ivy-rich
+  :after ivy-rich
+  :config
+  (all-the-icons-ivy-rich-mode t))
+
+(use-package counsel
+  :config (counsel-mode t))
+
 (use-package swiper)
+
+(use-package ws-butler
+  :hook ((text-mode . ws-butler-mode)
+         (prog-mode . ws-butler-mode)))
 
 (use-package eyebrowse
   :config

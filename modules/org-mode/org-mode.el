@@ -4,23 +4,24 @@
 (require 'org-mode-funcs)
 (require 'org-mode-keybinds)
 
+(use-package visual-fill-column
+  :hook (org-mode . org-mode-visual-fill))
+
 (use-package org
   :commands (org-clock-out org-occur-in-agenda-files org-agenda-files)
-  :init
-  (org-setup-headers)
+  :hook
+  (org-mode . org-mode-setup)
   :config
   (with-no-warnings
     (custom-declare-face '+org-todo-active  '((t (:inherit (bold font-lock-constant-face org-todo)))) "")
     (custom-declare-face '+org-todo-project '((t (:inherit (bold font-lock-doc-face org-todo)))) "")
     (custom-declare-face '+org-todo-onhold  '((t (:inherit (bold warning org-todo)))) ""))
   (setq
-   org-adapt-dim-blocked-tasks nil
-   org-agenda-files (list "~/Dropbox/org/agenda/calendar.org")
+   org-agenda-files (list "~/Dropbox/org/agenda.org")
    org-default-notes-file "~/Dropbox/org/refile.org"
    org-directory "~/Dropbox/org"
    org-latex-create-formula-image-program 'dvipng
    org-agenda-skip-unavailable-files nil
-   org-cycle-include-plain-lists 'integrate
    org-cycle-separator-lines 1
    org-fontify-done-headline t
    org-fontify-whole-heading-line t
@@ -39,32 +40,46 @@
    org-startup-with-inline-images t
    org-use-sub-superscripts t
    org-src-tab-acts-natively t
-   ontline-blank-line t
-   org-refile-use-outline-path 'file
-   org-imenu-depth 8
-   org-ellipsis "⤵"
+   org-src-fontify-natively t
+   ;; org-refile-use-outline-path 'file
+   ;;org-ellipsis "⤵"
+   org-ellipsis ""
    org-confirm-babel-evaluate nil
-   org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
+   org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "BLOCKED(b@/!)" "|" "DONE(d)" "CANCELLED(c@/!)"))
    org-todo-state-tags-triggers (quote (("CANCELLED" ("CANCELLED" . t))
-					("WAITING" ("WAITING" . t))
-					("HOLD" ("WAITING") ("HOLD" . t))
-					(done ("WAITING") ("HOLD"))
-					("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-					("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-					("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+   					("BLOCKED" ("BLOCKED" . t))
+   					(done ("BLOCKED") ("HOLD"))
+   					("TODO" ("BLOCKED") ("CANCELLED") ("HOLD"))
+   					("NEXT" ("BLOCKED") ("CANCELLED") ("HOLD"))
+   					("DONE" ("BLOCKED") ("CANCELLED") ("HOLD"))))))
 
-  :hook
-  (org-mode . (lambda ()
-		     (progn
-		       (setq left-margin-width 4
-			     right-margin-width 4)
-			     header-line-format " ")
-		       (set-window-buffer nil (current-buffer))
-		       (org-indent-mode)
-		       (fringe-mode 0)
-		       (visual-line-mode))))
-
+;;(use-package writeroom-mode
+;;  :defer t
+;;  :config
+;;    (setq writeroom-width 140
+;;          writeroom-mode-line nil
+;;          writeroom-global-effects '(writeroom-set-bottom-divider-width
+;;                                     writeroom-set-internal-border-width
+;;                                     (lambda (arg)
+;;                                       (let ((langs '("python"
+;;                                                      "emacs-lisp"
+;;                                                      "common-lisp"
+;;                                                      "js"
+;;                                                      "ruby")))
+;;                                         (cond
+;;                                          ((= arg 1)
+;;                                           (progn
+;;                                             (setq org-src-block-faces
+;;                                                   (mapcar (lambda (lang) (list lang '(:family "Source Code Pro" :height 0.8))) langs))
+;;                                             (normal-mode)
+;;                                             (variable-pitch-mode)))
+;;                                          ((= arg -1)
+;;                                           (progn
+;;                                             (setq org-src-block-faces
+;;                                                   (mapcar (lambda (lang) (list lang '(:family "Source Code Pro" :height 1.0))) langs))
+;;                                             (normal-mode)
+;;                                             (variable-pitch-mode)
+;;                                             (variable-pitch-mode)))))))))
 
 (use-package evil-org
   :ensure t

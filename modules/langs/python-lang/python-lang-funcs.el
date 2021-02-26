@@ -13,7 +13,7 @@
 (defun get-pyshell-buffer ()
   "If Python process is not running, start it then return the buffer."
   (if (not (get-buffer "*Python*"))
-      (run-python)
+      (run-python "ipython")
     (pop-to-buffer-same-window "*Python*")))
 
 (defun python-popup-toggle ()

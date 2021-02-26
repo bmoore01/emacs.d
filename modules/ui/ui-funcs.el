@@ -16,13 +16,16 @@
   (mapcar #'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 
+(defvar ui-after-theme-cycle-hook nil
+  "Hook called after theme is switched from the ui-cycle-themes method.")
 
 ;;;###autoload
 (defun ui-cycle-themes ()
   "Cycle through the dark and light themes in the UI-THEMES-TO-CYCLE list."
   (interactive)
   (setq ui-themes-to-cycle (nconc (last ui-themes-to-cycle) (butlast ui-themes-to-cycle)))
-  (load-theme (car ui-themes-to-cycle) t nil))
+  (load-theme (car ui-themes-to-cycle) t nil)
+  (run-hooks 'ui-after-theme-cycle-hook))
 
 ;;;###autoload
 (defun set-font (font size weight)
@@ -30,7 +33,6 @@
   (let ((font-str (concat font "-" (number-to-string  size) ":weight=" weight)))
     (when (member font (font-family-list))
       (set-frame-font font-str t t))))
-
 
 (define-globalized-minor-mode
   global-text-scale-mode
@@ -72,7 +74,6 @@
 ;;    ;; Unlike `set-frame-font', `set-frame-parameter' won't trigger this
 ;;    ;; (run-hooks 'after-setting-font-hook)))
 
-
 (defvar +modeline--old-bar-height nil)
 ;;;###autoload
 (defun modeline-resize-for-font (inc)
@@ -84,6 +85,31 @@
           (if (> scale 0)
               (+ default-height (* scale (* 2 inc)))
             default-height))))
+
+
+(defun disable--thin-modeline-mode ()
+  (doom-modeline-mode)
+  (setq window-divider-default-bottom-width 0)
+  (window-divider-mode nil))
+
+(defun enable--thin-modeline-mode ()
+  (defface thin-modeline-underscore-face
+    '((t (:inherit default :underline (:style line))))
+    "Face for `thin-modeline'.")
+
+  (setq mode-line-format
+	'(:eval (list
+		 (propertize
+		  (make-string (* 3 (window-width)) ?\ )
+		       'face 'thin-modeline-underscore-face)))))
+
+;;;###autoload
+(define-minor-mode thin-modeline-mode
+  "When enabled show a thin line at the bottom of the screen intstead of the modeline."
+  :init-value nil
+  (if thin-modeline-mode
+      (enable--thin-modeline-mode)
+    (disable--thin-modeline-mode)))
 
 (provide 'ui-funcs)
 ;;; ui-funcs.el ends here

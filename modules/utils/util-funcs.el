@@ -1,4 +1,4 @@
-;;; util-funcs.el --- general utils which don't need to be in core -*- lexical-binding:t -*-
+;;; util-funcs.el --- general utils for managing the config itself -*- lexical-binding:t -*-
 ;;; Commentary:
 ;;; Code:
 
