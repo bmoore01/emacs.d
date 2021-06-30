@@ -4,17 +4,13 @@
 (require 'C-C++-funcs)
 (require 'C-C++-keybinds)
 
-;;(use-package ccls
-;;  :ensure t
-;;  :config
-;;  (setq ccls-executable "ccls")
-;;  (setq lsp-prefer-flymake nil)
-;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-;;  :hook ((c-mode c++-mode objc-mode) .
-;;         (lambda () (require 'ccls) (lsp))))
-
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+(use-package ccls
+  :config
+  (setq lsp-prefer-flymake nil)
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .(lambda () (require 'ccls) (lsp))))
 
 (add-hook 'c-mode-hook #'setup-dap-nodes)
 (add-hook 'c++-mode-hook #'setup-dap-nodes)

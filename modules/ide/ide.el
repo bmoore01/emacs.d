@@ -11,9 +11,6 @@
 ;;; Code:
 (require 'ide-funcs)
 
-(defvar gdb-many-windows t)
-(defvar gdb-show-main t)
-
 (use-package projectile
   :diminish projectile-mode
   :custom ((projectile-completion-system 'ivy))
@@ -83,7 +80,6 @@
   :custom
   (dap-auto-configure-features '(sessions locals tooltip)))
 
-;; TODO: add some snippets
 (use-package yasnippet)
 
 (use-package magit)
