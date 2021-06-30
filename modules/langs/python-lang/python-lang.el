@@ -5,10 +5,13 @@
 (require 'python-lang-funcs)
 (require 'python-lang-keybinds)
 
-(setq python-shell-interpreter "python3")
-;; also had to set custom variable dap-python-executable to python3
-
 (require 'dap-python)
+
+(use-package python-mode
+  :ensure nil
+  :hook (python-mode. lsp-deferred)
+  :custom
+  (python-shell-interpreter "python3"))
 
 ;; if you need to define arguments etc this is the debugger template for python
 ;;(dap-register-debug-template "My App"

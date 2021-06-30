@@ -3,7 +3,6 @@
 ;;; keybinds for elisp trying to keep as close to LSP keybinds as possible
 ;;; this way can have similar keybinds for all languages;
 ;;; Code:
-;;;(provide 'emacs-lisp-keybinds)
 
 (major-mode-leader-def
  :states '(normal visual)

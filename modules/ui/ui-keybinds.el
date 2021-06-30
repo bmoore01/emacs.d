@@ -7,8 +7,7 @@
 
 (theme-leader-def
   :keymaps '(normal visual)
-  "n" 'ui-cycle-themes
-  "m" 'thin-modeline-mode)
+  "n" 'ui-cycle-themes)
 
 (general-define-key
  :states '(normal visual)

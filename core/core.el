@@ -89,19 +89,12 @@
   :config
   (evil-mode t)
   ;; Use visual line motions even outside of visual-line-mode buffers
-  ;;(evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  ;;(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
   ;; Set initial state for some buffers that are insert by default
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
-
-;;(use-package evil-collection
-;;  :after evil
-;;  :custom
-;;  (evil-collection-outline-bind-tab-p nil)
-;;  :config
-;;  (evil-collection-init))
 
 (use-package evil-surround
   :diminish

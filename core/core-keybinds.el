@@ -27,7 +27,8 @@
  "j" 'evil-window-down
  "k" 'evil-window-up
  "l" 'evil-window-right
- "h" 'evil-window-left)
+ "h" 'evil-window-left
+ "=" 'balance-windows)
 
 ;; buffer keybinds
 (create-leader-key-prefix buffer-leader-def
@@ -45,8 +46,8 @@
  "d" 'kill-current-buffer
  "n" 'next-buffer
  "p" 'previous-buffer
- "]" 'next-buffer
- "[" 'previous-buffer)
+ "[" 'evil-jump-backward
+ "]" 'evil-jump-forward)
 
 ;; open things bindings
 (create-leader-key-prefix open-leader-def
@@ -135,7 +136,7 @@
  "M-9" 'eyebrowse-switch-to-window-config-9
  "M-s-<right>" 'eyebrowse-next-window-config
  "M-s-<left>" 'eyebrowse-prev-window-config
- "M-W" 'eyebrowse-close-window-config)
+ "M-w" 'eyebrowse-close-window-config)
 
 (provide 'core-keybinds)
 ;;; core-keybinds.el ends here

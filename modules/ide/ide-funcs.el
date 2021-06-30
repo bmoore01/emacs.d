@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+(defun my-lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
 ;;;###autoload
 (defun my-relative-linum-toggle ()
   "Allow for toggling relative line number mode without re-initialising line number mode."
