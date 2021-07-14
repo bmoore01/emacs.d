@@ -43,8 +43,7 @@
   (text-scale-set 1)
   (kill-local-variable 'text-scale-mode-amount)
   (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
-  (global-text-scale-mode 1)
-  (modeline-resize-for-font inc))
+  (custom-set-variables '(global-text-scale-mode 1)))
 
 (provide 'ui-funcs)
 ;;; ui-funcs.el ends here

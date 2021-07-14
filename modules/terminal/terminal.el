@@ -7,7 +7,7 @@
 (use-package shell-pop
   :config
   (setq
-   shell-pop-term-shell "/usr/local/bin/fish"
+   shell-pop-term-shell "/usr/local/bin/zsh"
    shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
   ;; need to do this manually or not picked up by `shell-pop'
   (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type)

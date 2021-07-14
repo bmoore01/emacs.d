@@ -22,7 +22,9 @@
  '(dashboard-set-heading-icons t)
  '(dashboard-set-navigator t)
  '(dashboard-startup-banner 'logo)
+ '(doom-modeline-height 25)
  '(fci-rule-color "#383e5c")
+ '(global-text-scale-mode 1)
  '(jdee-db-active-breakpoint-face-colors (cons "#161a2a" "#baacff"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#161a2a" "#c7f59b"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#161a2a" "#383e5c"))
@@ -38,8 +40,9 @@
  '(neo-hide-cursor t t)
  '(neo-smart-open t t)
  '(objed-cursor-color "#ff5370")
+ '(org-agenda-files nil t)
  '(package-selected-packages
-   '(mini-frame nasm-mode x86-lookup solidity-flycheck company-solidity flycheck-solidity solidity-mode writeroom-mode whiteroom-mode rainbow-mode visual-fill-column visual-fill spacemacs-theme evil-collection ivy-hydra company-box all-the-icons-ivy-rich js2-mode rjsx-mode tide all-the-icons-dired git-gutter-fringe evil-magit magit eyebrowse yasnippet ccls add-node-modules-path ivy-xref kaolin-themes cider centaur-tabs ivy-posframe ivy-rich all-the-icons-ivy evil-numbers cargo-mode lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package))
+   '(org-plus-contrib org mini-frame nasm-mode x86-lookup solidity-flycheck company-solidity flycheck-solidity solidity-mode writeroom-mode whiteroom-mode rainbow-mode visual-fill-column visual-fill spacemacs-theme evil-collection ivy-hydra company-box all-the-icons-ivy-rich js2-mode rjsx-mode tide all-the-icons-dired git-gutter-fringe evil-magit magit eyebrowse yasnippet ccls add-node-modules-path ivy-xref kaolin-themes cider centaur-tabs ivy-posframe ivy-rich all-the-icons-ivy evil-numbers cargo-mode lsp-java go-direx go-mode org-bullets org-pretty-table evil-surround smartparens persp-mode dashboard dap-ui dap-mode shell-pop lsp-mode linum-relative evil-org company flycheck counsel-projectile wgrep ag projectile counsel swiper ivy doom-modeline spaceline-colors spaceline-all-the-icons spaceline powerline all-the-icons doom-themes web-mode elixir-mode multi-term eterm-256color exec-path-from-shell neotree treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs evil general which-key use-package))
  '(pdf-view-midnight-colors (cons "#212337" "#e4f3fa"))
  '(rustic-ansi-faces
    ["#212337" "#ff757f" "#c3e88d" "#ffc777" "#82aaff" "#c099ff" "#b4f9f8" "#c8d3f5"])

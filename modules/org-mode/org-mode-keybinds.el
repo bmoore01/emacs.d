@@ -3,17 +3,12 @@
 ;;; Code:
 
 (general-define-key
- :prefix "C-c")
-
-(general-define-key
- :keymaps 'evil-org-mode-map
  :major-modes 'org-mode
  :states '(normal visual)
- "c" 'org-capture
- "C-t" 'org-todo)
+ "C-c C-t" 'org-todo
+ "C-c C-w" 'org-refile)
 
 (general-define-key
- :keymaps 'evil-org-mode-map
  :major-modes 'org-mode
  :states '(normal visual)
  "TAB" 'org-cycle
@@ -22,7 +17,8 @@
 
 (open-leader-def
  :states '(normal visual)
- "a" 'org-agenda-list)
+ "a" 'org-agenda
+ "c" 'org-capture)
 
 (major-mode-leader-def
  :states '(normal visual)

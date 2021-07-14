@@ -25,7 +25,7 @@
     (pretty-mac-titlebar))
 
 (defvar default-font "Roboto mono")
-(defvar default-font-size 18)
+(defvar default-font-size 20)
 (defvar font-size-increment 1)
 (defvar font-scale 1)
 (defvar default-font-weight "regular")

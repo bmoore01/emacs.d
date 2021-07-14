@@ -20,5 +20,3 @@
 ** TODO jira
 ** DONE hydra for todos
 ** DONE fix the damn UI
-* TODO projectile compilation
-
