@@ -19,8 +19,7 @@
   (setq package-archives '(("org" . "http://orgmode.org/elpa/")
 			   ("gnu" . "http://elpa.gnu.org/packages/")
 			   ("melpa-stable" . "http://stable.melpa.org/packages/")
-			   ("melpa" . "http://melpa.org/packages/")
-			   ("marmalade" . "http://marmalade-repo.org/packages/")))
+			   ("melpa" . "http://melpa.org/packages/")))
 
   (package-initialize)
   (unless (package-installed-p 'use-package) ; unless it is already installed
