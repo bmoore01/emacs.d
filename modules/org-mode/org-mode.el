@@ -37,7 +37,7 @@
    					     ("TODO" ("BLOCKED") ("CANCELLED") ("HOLD"))
    					     ("NEXT" ("BLOCKED") ("CANCELLED") ("HOLD"))
    					     ("DONE" ("BLOCKED") ("CANCELLED") ("HOLD")))))
-  (org-font-setup))
+  (org-font-setup)))
 
 
 (advice-add 'org-refile :after 'org-save-all-org-buffers)

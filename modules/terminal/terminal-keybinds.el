@@ -6,7 +6,7 @@
  :keymaps 'normal
  "e" 'eshell-toggle
  "i" 'elisp-repl-toggle
- "s" 'shell-pop)
+ "s" 'shell-toggle)
 
 (provide 'terminal-keybinds)
 ;;; terminal-keybinds.el ends here

@@ -29,7 +29,6 @@
       (let* ((buffer (get-buffer-create "Shell-popup"))
 	     (win (display-buffer-in-side-window buffer `((window-height . 12)))))
 	(shell buffer)
-	(set-frame-font "MesloLGS NF")
 	(put :shell-toggle 'state win))
     (progn
       (let ((win (get :shell-toggle 'state)))
@@ -48,7 +47,6 @@
       (let ((win (get :smart-shell-toggle 'state)))
 	(delete-window win)
 	(put :smart-shell-toggle 'state nil)))))
-(add-hook 'term-mode-hook (lambda () (set-frame-font "MesloLGS NF")))
 
 (defun eshell-toggle ()
   "Togle the opening of eshell popup-window."
