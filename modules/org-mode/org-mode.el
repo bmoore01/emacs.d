@@ -9,6 +9,8 @@
   :ensure org-plus-contrib
   :commands (org-capture org-agenda)
   :hook (org-mode . org-mode-setup)
+  :custom
+  (org-startup-folded 'fold)
   :config
   (setq org-ellipsis " "
 	org-agenda-start-with-log-mode t
@@ -19,10 +21,7 @@
 	org-capture-templates
 	`(("t" "Tasks / Projects")
 	  ("tt" "Task" entry (file+olp "~/Dropbox/org/todo.org" "Inbox")
-           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
-
-
-	org-startup-folded t
+           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1))
 	org-enforce-todo-dependencies t
 	org-startup-with-inline-images t
 	org-use-sub-superscripts t
@@ -37,7 +36,7 @@
    					     ("TODO" ("BLOCKED") ("CANCELLED") ("HOLD"))
    					     ("NEXT" ("BLOCKED") ("CANCELLED") ("HOLD"))
    					     ("DONE" ("BLOCKED") ("CANCELLED") ("HOLD")))))
-  (org-font-setup)))
+  (org-font-setup))
 
 
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
