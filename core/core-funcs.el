@@ -152,5 +152,17 @@
   (split-window-below)
   (other-window 1))
 
+;;;###autoload
+(defun my-relative-linum-toggle ()
+  "Allow for toggling relative line number mode without re-initialising line number mode."
+  (interactive)
+  (if (not (get :my-linum-toggle 'state))
+      (progn
+	(linum-relative-toggle)
+	(put :my-linum-toggle 'state t))
+    (linum-relative-toggle)
+    (display-line-numbers-mode)
+    (put :my-linum-toggle 'state nil)))
+
 (provide 'core-funcs)
 ;;; core-funcs.el ends here

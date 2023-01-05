@@ -4,6 +4,7 @@
 ;;; Could potentially extract out ivy stuff and even window stuff
 
 ;;; Code:
+
 (require 'core-lib)
 
 ;; switch mac keybinds
@@ -11,10 +12,9 @@
 (setq mac-command-modifier 'meta)
 
 (global-set-key (kbd "C-M-u") 'universal-argument)
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; window keybinds
+;; WINDOW keybinds
 (create-leader-key-prefix window-leader-def
   :prefix "SPC w"
  :which-key "window")
@@ -53,6 +53,10 @@
 (create-leader-key-prefix open-leader-def
   :prefix "SPC o"
   :which-key "open")
+
+(open-leader-def
+ :keymaps 'normal
+ "g" 'magit-status)
 
 (open-leader-def
  :keymaps 'normal
@@ -136,7 +140,71 @@
  "M-9" 'eyebrowse-switch-to-window-config-9
  "M-s-<right>" 'eyebrowse-next-window-config
  "M-s-<left>" 'eyebrowse-prev-window-config
+ "M-n" 'eyebrowse-create-window-config
  "M-w" 'eyebrowse-close-window-config)
+
+
+(create-leader-key-prefix projectile-leader-def
+  :prefix "SPC p"
+  :which-key "project")
+
+(projectile-leader-def
+  :keymaps 'normal
+  "f" 'projectile--find-file
+  "s" 'projectile-switch-project
+  "o" 'projectile-switch-open-project
+  "c" 'projectile-compile-project
+  "b" 'projectile-display-buffer
+  "w" 'projectile-save-project-buffers
+  "/" 'counsel-projectile-rg)
+
+;; toggle keybinds
+(create-leader-key-prefix toggle-leader-def
+  :prefix "SPC t"
+  :which-key "toggle")
+
+(toggle-leader-def
+  :states '(normal visual)
+  "n" 'my-relative-linum-toggle)
+
+;; elisp keybinds
+(major-mode-leader-def
+ :states '(normal visual)
+ :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+ "e" 'eval-last-sexp
+ "b" 'eval-buffer
+ "r" 'eval-reigon
+ "p" 'eval-print-last-sexp)
+
+(general-nmap
+ :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+ "TAB" 'lisp-indent-line
+ "M-b" 'find-function-at-point)
+
+(help-leader-def
+ :states '(normal visual)
+ :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+ "f" 'counsel-describe-function
+ "k" 'counsel-descbinds
+ "v" 'counsel-describe-variable)
+
+
+;; company keybinds
+(general-imap
+  :keymaps 'company-mode-map
+  "C-j" 'company-select-next
+  "C-k" 'company-select-previous)
+
+
+;; lsp keybinds
+(general-nmap
+  :keymaps 'lsp-mode-map
+  "M-b" 'lsp-find-definition
+  "M-B" 'lsp-find-implementation
+  "M-r" 'lsp-find-references
+  "M-D" 'dap-hydra
+  "SPC R" 'lsp-rename
+  "M-RET" 'dap-eval)
 
 (provide 'core-keybinds)
 ;;; core-keybinds.el ends here

@@ -8,4 +8,7 @@
 
 ;;; After initialization is done set it to something reasonable
 (add-hook 'emacs-startup-hook (lambda ()
-				(setq gc-cons-threshold 800000)))
+				(setq
+				 gc-cons-threshold 800000
+				 read-process-output-max (* 1024 1024) ;; 1mb
+				 )))

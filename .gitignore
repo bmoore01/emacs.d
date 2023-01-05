@@ -1,6 +1,7 @@
 *.*~
 *.elc
-#*
+\#*
+.DS_store
 auto-save-list/
 backups/
 bookmarks
