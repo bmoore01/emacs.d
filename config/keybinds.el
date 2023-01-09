@@ -111,6 +111,11 @@
   :prefix "SPC m"
   :which-key "major mode")
 
+(major-mode-leader-def
+ :states '(normal visual)
+ "c" '(lambda () (interactive) (bind-for-projectile 'projectile-compile-project 'compile))
+ "C" 'compile)
+
 ;; neotree keys
 (general-define-key
  :keymaps 'neotree-mode-map
