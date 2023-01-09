@@ -1,14 +1,10 @@
-;;; core-funcs.el -- Vital functions for conf -*- lexical-binding:t -*-
-;;; functions required for the initialization and compilation of my emacs config
+;;; config-funcs.el -- Functions for config -*- lexical-binding:t -*-
+;;; 
 ;;; Commentary:
-;;; need to refactor `add-all-modules' to be able to exclude modules to avoid janky implementation
-;;; then can create macro for the init file which shows which files to include
+;;; Put functions in a separate file to cleanup my config
 ;;; Code:
-(require 'cl-lib)
 
 ;; defvars to avoid free variable error
-(defvar modules-dir)
-(defvar langs-dir)
 (defvar scratch-mode)
 
 (defun setup-use-package ()
@@ -27,21 +23,11 @@
     (package-install 'use-package)) ; and install the most recent version of use-package
   (require 'use-package))
 
-
-(defun recompile-config-modules ()
-  "Byte compile everything in the `~/.emacs.d/modules/' directory."
-  (interactive)
-  (let ((prefix "~/.emacs.d/modules/"))
-    (mapcar (lambda (x)
-	      (byte-recompile-directory (concat prefix x) 0))
-	    (clean-dir-files prefix))))
-
 (defun new-empty-buffer ()
   "Create a new buffer called untitled(<n>)."
   (interactive)
   (let ((newbuf (generate-new-buffer-name "untitled")))
     (switch-to-buffer newbuf)))
-
 
 (defun switch-to-scratch-buffer ()
   "Switch to the `*scratch*' buffer or create it if needed."
@@ -56,35 +42,6 @@
 (defun add-path-string-to-exec-path (str)
   "Add all paths in STR seperated by colons to the exec path."
   (mapcar (lambda (s) (setenv "PATH" (concat s))) (split-string str ":")))
-
-
-;;;###autoload
-(defun add-module (module-name &optional dir)
-  "Add module `MODULE-NAME 'to the `load-path' if `DIR' is set use specified dir otherwise use `modules-dir'."
-  (if dir
-      (add-to-list 'load-path (concat dir module-name))
-    (add-to-list 'load-path (concat modules-dir module-name)))
-  (require (intern module-name)))
-
-;;;###autoload
-(defun add-lang-module (module-name)
-  "Add lang module `MODULE-NAME 'to the `load-path'."
-  (add-module module-name langs-dir))
-
-;;;###autoload
-(defun add-all-modules (&optional excluded)
-  "Add all modules in the `modules-dir' to the `load-path', execpt any listed in EXCLUDED."
-  (mapc #'add-module
-  	  ;; don't include langs twice add utils manually
-  	  (remove-sublist-from-list
-	   (append '("langs" "utils") excluded)
-	   (clean-dir-files modules-dir)))
-  (add-to-list 'load-path "util-funcs"))
-
-;;;###autoload
-(defun add-langs ()
-  "Add all modules in the `langs-dir' to the `load-path'."
-  (mapcar #'add-lang-module (clean-dir-files langs-dir)))
 
 (defun emacs-special-buffer-name-p (name)
   "If NAME is surrounded by asterisks return t otherwise return nil."
@@ -164,5 +121,5 @@
     (display-line-numbers-mode)
     (put :my-linum-toggle 'state nil)))
 
-(provide 'core-funcs)
-;;; core-funcs.el ends here
+(provide 'config-funcs)
+;;; config-funcs.el ends here

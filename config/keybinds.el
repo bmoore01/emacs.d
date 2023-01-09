@@ -1,20 +1,52 @@
-;; core-keybinds.el --- Keybinds I can't live without -*- lexical-binding:t -*-
+;; keybinds.el --- All keybinds for my config -*- lexical-binding:t -*-
 
 ;;; Commentary:
-;;; Could potentially extract out ivy stuff and even window stuff
+;;; All of my keybinds
 
 ;;; Code:
 
-(require 'core-lib)
+;; ----------------------------
+;; Variables
+;; ----------------------------
 
 ;; switch mac keybinds
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
+
+;; ----------------------------
+;; Utility functions
+;; ----------------------------
+(require 'cl-lib)
+
+(cl-defmacro create-leader-key-prefix (name &rest params &key which-key &allow-other-keys)
+  "Just a wrapper for `general-create-definer' for simpler which-key naming.
+`NAME' is the name of the definer and `PARAMS' is everything else and
+`WHICH-KEY' is the name of the prefix in which-key buffer"
+  (declare (indent defun))
+  (let ((other-keys (cl-loop for (k v) on params by 'cddr
+			      unless (eq k :which-key)
+			      collect k
+			      and collect v)))
+    `(general-create-definer
+      ,name
+      ,@other-keys
+      "" (quote (:ignore t :which-key ,which-key)))))
+
+(defun bind-for-projectile (projectile-function regular-function)
+  "Bind to `projectile-function' if current dir is projectile project and `regular-function' otherwise."
+  (interactive)
+  (if (projectile-project-p)
+      (call-interactively projectile-function)
+    (call-interactively regular-function)))
+
+;; ----------------------------
+;; Keybind definitions
+;; ----------------------------
+
 (global-set-key (kbd "C-M-u") 'universal-argument)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; WINDOW keybinds
 (create-leader-key-prefix window-leader-def
   :prefix "SPC w"
  :which-key "window")
@@ -37,10 +69,9 @@
 
 (buffer-leader-def
  :keymaps 'normal
- "b" '(lambda () (interactive) (if (projectile-project-p)
-				   (call-interactively 'counsel-projectile-switch-to-buffer)
-				 (call-interactively 'ivy-switch-buffer)))
- "B" 'ivy-switch-buffer
+ "b" '(lambda () (interactive) (bind-for-projectile 'helm-projectile-switch-to-buffer 'helm-buffers-list))
+ "f" 'helm-do-ag-buffers
+ "B" 'helm-buffers-list
  "s" 'switch-to-scratch-buffer
  "N" 'new-empty-buffer
  "d" 'kill-current-buffer
@@ -70,7 +101,7 @@
  ;; TODO: add open emacs config as projectile project
 (file-leader-def
   :keymaps 'normal
-  "f" 'counsel-find-file)
+  "f" 'helm-find-files)
 
 (create-leader-key-prefix help-leader-def
   :prefix "SPC h"
@@ -100,34 +131,48 @@
  "gr" 'neotree-refresh
  "l" 'neotree-expand-or-open
  "h" 'neotree-collapse-or-up
- "M-1" 'neotree-hide
  "s" 'neotree-hidden-file-toggle)
 
-;; ivy keys
+;; helm keys
 (general-define-key
- :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
- "C-j" 'ivy-next-line
- "C-k" 'ivy-previous-line
- "TAB" 'ivy-partial-or-done)
+ :keymaps '(helm-map)
+ "C-j" 'helm-next-line
+ "C-k" 'helm-previous-line
+ "C-p" 'helm-execute-persistent-action
+ "C-h" 'helm-previous-source
+ "C-l" 'helm-next-source)
 
 (general-define-key
- :keymaps '(ivy-switch-buffer-map counsel-projectile-switch-to-buffer)
- "C-d" 'ivy-switch-buffer-kill)
+ :keymaps '(helm-buffer-map)
+ "C-d" 'helm-buffer-run-kill-buffers)
 
-(general-nmap
-  :prefix "SPC"
-  "SPC" 'counsel-M-x)
+(general-define-key
+ :states '(normal visual)
+ :prefix "SPC"
+  "SPC" 'helm-M-x)
+
+;; TODO add directory comletion look in helm-files.el
+;;;###autoload
+(defun helm-grep-ag-with-dir-prompt (arg)
+  "Same a `helm-do-grep-ag' but it prompts user for search directory first"
+  (interactive "P")
+  (require 'helm-files)
+
+  (let ((search-dir (expand-file-name (read-string (format "Search in (%s): " default-directory) (expand-file-name default-directory) t (expand-file-name default-directory)))))
+    (helm-grep-ag search-dir arg)))
 
 (general-define-key
  :states '(normal visual)
  "TAB" 'indent-region
- "M-1" 'neotree-show
- "M-f" 'counsel-grep-or-swiper
- "?" 'counsel-grep-or-swiper-backward
+ "M-f" 'helm-do-ag-this-file
+ "M-F" 'helm-grep-ag-with-dir-prompt
  "C-a" 'evil-numbers/inc-at-pt
  "C-x" 'evil-numbers/dec-at-pt
  "M-]" 'next-buffer :which-key "next buffer"
  "M-[" 'previous-buffer :which-key "previous buffer"
+ "M-b" 'xref-find-references
+ "M-B" 'xref-find-definitions
+
  ;; eyebrowse keybinds
  "M-1" 'eyebrowse-switch-to-window-config-1
  "M-2" 'eyebrowse-switch-to-window-config-2
@@ -150,13 +195,13 @@
 
 (projectile-leader-def
   :keymaps 'normal
-  "f" 'projectile--find-file
-  "s" 'projectile-switch-project
+  "f" 'helm-projectile-find-file
+  "s" 'helm-projectile-switch-project
   "o" 'projectile-switch-open-project
   "c" 'projectile-compile-project
   "b" 'projectile-display-buffer
   "w" 'projectile-save-project-buffers
-  "/" 'counsel-projectile-rg)
+  "/" 'helm-do-ag-project-root)
 
 ;; toggle keybinds
 (create-leader-key-prefix toggle-leader-def
@@ -178,16 +223,13 @@
 
 (general-nmap
  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
- "TAB" 'lisp-indent-line
- "M-b" 'find-function-at-point)
+ "TAB" 'lisp-indent-line)
+ ;; "M-b" 'find-function-at-point)
 
 (help-leader-def
  :states '(normal visual)
  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
- "f" 'counsel-describe-function
- "k" 'counsel-descbinds
- "v" 'counsel-describe-variable)
-
+ "f" 'helm-apropos)
 
 ;; company keybinds
 (general-imap
@@ -199,12 +241,10 @@
 ;; lsp keybinds
 (general-nmap
   :keymaps 'lsp-mode-map
-  "M-b" 'lsp-find-definition
-  "M-B" 'lsp-find-implementation
   "M-r" 'lsp-find-references
   "M-D" 'dap-hydra
   "SPC R" 'lsp-rename
   "M-RET" 'dap-eval)
 
-(provide 'core-keybinds)
-;;; core-keybinds.el ends here
+(provide 'keybinds)
+;;; keybinds.el ends here

@@ -7,16 +7,12 @@ backups/
 bookmarks
 .cache/
 elpa/
-eshell/
-eclipse.jdt.ls/
-ltximg/
 transient/
 .extension/
 .dap-breakpoints
 url/
-language-servers/
-persp-confs/
 private/
+projects
 network-security.data
 projectile-bookmarks.eld
 projectile.cache

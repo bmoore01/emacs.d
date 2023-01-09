@@ -2,23 +2,18 @@
 ;;; Commentary:
 ;;; Might factor window popup into a seperate package for use at some point but until then it's going to live in here.
 ;;; Code:
-(require 'core-lib)
-(require 'core-funcs)
+(require 'config-funcs)
 
 ;; this has to be called first before anything
 ;; as use-package is used pretty much everywhere
 (setup-use-package)
 
-;; set global constants
-(defconst modules-dir (concat user-emacs-directory "modules/"))
-(defconst langs-dir (concat modules-dir "langs/"))
-(defconst user-secrets-dir (concat user-emacs-directory "private/")
-  "Secrets directory for all things that shouldn't be uploaded to git, passwords, privte keys etc.")
+(defconst user-secrets-directory (concat user-emacs-directory "private/")
+  "Dir ignored by git for, passwords, private keys etc.")
 
 ;; set defaults
 (setq-default
  cursor-type 'bar
- explicit-shell-file-name "/bin/zsh"
  compilation-always-kill t
  compilation-scroll-output t
  show-paren-delay 0)
@@ -39,6 +34,11 @@
 
 ;; replace all yes or no prompts with y/n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
+
+;; set font size 14 by default
+(set-face-attribute 'default nil :height 140)
+
+(setq custom-file (concat user-emacs-directory "core/custom.el"))
 
 ;; avoid making a mess in the filesystem
 (setq create-lockfiles nil
@@ -65,15 +65,14 @@
 ;; highlight parens
 (show-paren-mode 1)
 
+;; stop xref asking for which identifier to select
+(setq xref-prompt-for-identifier nil)
+
 ;; show line numbers only in code buffers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;; set theme
 ;; (load-theme 'shades-of-purple t nil)
-
-;; disable messages buffer
-(setq-default message-log-max nil)
-(kill-buffer "*Messages*")
 
 ;; Disable *Completions* buffer
 (add-hook 'minibuffer-exit-hook
@@ -167,68 +166,14 @@
   :ensure git-gutter-fringe
   :hook (prog-mode . git-gutter-mode))
 
-(use-package ivy
-  :diminish
-  :init
-  (ivy-mode 1)
+(use-package helm
   :config
-  (setq ivy-wrap t
-	;;ivy-display-style nil
-	ivy-use-virtual-buffers t
-	ivy-initial-inputs-alist nil
-	ivy-count-format "(%d/%d) "))
+  (helm-autoresize-mode 1))
 
-(use-package ivy-hydra
-  :defer t
-  :after hydra)
+(use-package helm-projectile
+  :after projectile)
 
-(use-package ivy-rich
-  :preface
-  (defun ivy-rich-switch-buffer-icon (candidate)
-    (with-current-buffer
-        (get-buffer candidate)
-      (all-the-icons-icon-for-mode major-mode)))
-  :init
-  (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
-        '(ivy-switch-buffer
-          (:columns
-           ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate)
-            (ivy-rich-switch-buffer-project (:face success))
-            (ivy-rich-switch-buffer-major-mode (:face warning)))
-           :predicate
-           (lambda (cand) (get-buffer cand)))
-          counsel-M-x
-          (:columns
-           ((counsel-M-x-transformer (:width 40))
-            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
-          counsel-describe-function
-          (:columns
-           ((counsel-describe-function-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
-          counsel-describe-variable
-          (:columns
-           ((counsel-describe-variable-transformer (:width 35))
-            (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
-          package-install
-          (:columns
-           ((ivy-rich-candidate (:width 25))
-            (ivy-rich-package-version (:face font-lock-comment-face))
-            (ivy-rich-package-archive-summary (:face font-lock-builtin-face))
-            (ivy-rich-package-install-summary (:face font-lock-doc-face))))))
-  :config
-  (ivy-rich-mode 1)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
-
-(use-package all-the-icons-ivy-rich
-  :after ivy-rich
-  :config
-  (all-the-icons-ivy-rich-mode t))
-
-(use-package counsel
-  :config (counsel-mode t))
-
-(use-package swiper)
+(use-package helm-xref)
 
 (use-package eyebrowse
   :config
@@ -237,24 +182,17 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :custom ((projectile-completion-system 'ivy))
   :config (projectile-mode)
   :init
-  (progn
     (when (file-directory-p "~/workspace")
-      (setq projectile-project-search-path '("~/workspace")))
-    (setq projectile-globally-ignored-files '(".DS_Store" "TAGS")
-        projectile-globally-ignored-file-suffixes '(".elc" ".pyc" ".o" ".class")
-	projectile-ignored-projects '("~/" "/tmp"))))
-
-(use-package counsel-projectile
-  :after projectile
-  :config
-  (counsel-projectile-mode))
+      (setq projectile-project-search-path '("~/workspace"))))
 
 (use-package linum-relative
   :config
   (setq linum-relative-backend 'display-line-numbers-mode))
+
+(use-package yasnippet
+  :config (yas-global-mode))
 
 (use-package company
   :init
@@ -266,9 +204,10 @@
   (add-to-list 'company-backends 'company-files))
 
 ;; (use-package company-box
-  ;; :hook (company-mode . company-box-mode))
+;;   :hook (company-mode . company-box-mode))
 
 (use-package lsp-mode
+  :after yasnippet
   :commands lsp
   :hook
   (sh-mode . lsp)
@@ -307,8 +246,15 @@
   (tooltip-mode 1)
   (require 'dap-gdb-lldb))
 
-(use-package yasnippet
-  :config (yas-global-mode))
+;; customise dap mode window placement
+;; this doesn't work yet
+(defvar dap-ui-buffer-configurations
+  `((,dap-ui--locals-buffer . ((side . bottom) (slot . 1) (window-width . 0.45)))
+    (,dap-ui--expressions-buffer . ((side . right) (slot . 2) (window-width . 0.20)))
+    (,dap-ui--sessions-buffer . ((side . right) (slot . 3) (window-width . 0.20)))
+    (,dap-ui--breakpoints-buffer . ((side . left) (slot . 2) (window-width . ,treemacs-width)))
+    (,dap-ui--debug-window-buffer . ((side . bottom) (slot . 3) (window-width . 0.20)))
+    (,dap-ui--repl-buffer . ((side . bottom) (slot . 1) (window-height . 0.45)))))
 
 (use-package magit)
 
@@ -320,6 +266,6 @@
   :config
   (require 'dap-python))
 
-(require 'core-keybinds)
-(provide 'core)
+(require 'keybinds)
+(provide 'config)
 ;;; core.el ends here
