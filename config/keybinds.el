@@ -151,6 +151,8 @@
  :prefix "SPC"
   "SPC" 'helm-M-x)
 
+(print (read-directory-name (format "Search in (%s): " default-directory)))
+
 ;; TODO add directory comletion look in helm-files.el
 ;;;###autoload
 (defun helm-grep-ag-with-dir-prompt (arg)
@@ -158,7 +160,7 @@
   (interactive "P")
   (require 'helm-files)
 
-  (let ((search-dir (expand-file-name (read-string (format "Search in (%s): " default-directory) (expand-file-name default-directory) t (expand-file-name default-directory)))))
+  (let ((search-dir (expand-file-name (read-directory-name (format "Search in (%s): " default-directory) nil nil t))))
     (helm-grep-ag search-dir arg)))
 
 (general-define-key
