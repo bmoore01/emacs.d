@@ -156,8 +156,6 @@
  :prefix "SPC"
   "SPC" 'helm-M-x)
 
-(print (read-directory-name (format "Search in (%s): " default-directory)))
-
 ;; TODO add directory comletion look in helm-files.el
 ;;;###autoload
 (defun helm-grep-ag-with-dir-prompt (arg)
@@ -252,6 +250,26 @@
   "M-D" 'dap-hydra
   "SPC R" 'lsp-rename
   "M-RET" 'dap-eval)
+
+
+;; org mode keybinds
+(general-define-key
+ :major-modes 'org-mode
+ :states '(normal visual)
+ "C-c C-t" 'org-todo
+ "C-c C-w" 'org-refile)
+
+(general-define-key
+ :major-modes 'org-mode
+ :states '(normal visual)
+ "TAB" 'org-cycle
+ "RET" 'org-open-at-point
+ "-" 'org-cycle-list-bullet)
+
+(open-leader-def
+ :states '(normal visual)
+ "a" 'org-agenda
+ "c" 'org-capture)
 
 (provide 'keybinds)
 ;;; keybinds.el ends here

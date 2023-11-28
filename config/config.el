@@ -38,7 +38,9 @@
 ;; set font size 14 by default
 (set-face-attribute 'default nil :height 140)
 
-(setq custom-file (concat user-emacs-directory "core/custom.el"))
+(setq custom-file (concat user-emacs-directory "config/custom.el"))
+(when (file-exists-p  custom-file)
+  (load custom-file))
 
 ;; avoid making a mess in the filesystem
 (setq create-lockfiles nil
@@ -194,14 +196,14 @@
 (use-package yasnippet
   :config (yas-global-mode))
 
-(use-package company
-  :init
-  (setq company-idle-delay 0.0
-        company-global-modes '(not org-mode)
-        company-minimum-prefix-length 1)
+;; (use-package company
+;;   :init
+;;   (setq company-idle-delay 0.0
+;;         company-global-modes '(not org-mode)
+;;         company-minimum-prefix-length 1)
 
-  (global-company-mode 1)
-  (add-to-list 'company-backends 'company-files))
+;;  (global-company-mode 1)
+;;  (add-to-list 'company-backends 'company-files))
 
 ;; (use-package company-box
 ;;   :hook (company-mode . company-box-mode))
@@ -222,12 +224,17 @@
         lsp-modeline-diagnostics-enable nil)
 
   (setq lsp-idle-delay 0.500)
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)) 
 
   (add-hook 'c-mode-hook 'lsp)
   (add-hook 'c++-mode-hook 'lsp)
 
   (with-eval-after-load 'lsp-mode
     (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (use-package lsp-ui
   :config
@@ -259,12 +266,104 @@
 (use-package magit)
 
 (use-package python-mode
-  :ensure nil
   :hook (python-mode . lsp-deferred)
   :custom
   (python-shell-interpreter "python3")
   :config
   (require 'dap-python))
+
+
+;; (use-package solarized-theme
+;;   :config
+;;   (load-theme 'solarized-light t))
+
+(use-package minions
+  :config (minions-mode)
+  :custom (minions-mode-line-lighter "..."))
+
+;; (use-package nano-theme
+;;   :ensure nil
+;;   :defer t
+;;   :quelpa (nano-theme
+;;            :fetcher github
+;;            :repo "rougier/nano-theme"))
+
+(use-package company
+  :ensure t
+  :commands (company-mode
+             global-company-mode company-complete
+             company-complete-common
+             company-manual-begin
+             company-grab-line)
+  :init
+  (setq company-idle-delay 0.0
+        company-global-modes '(not org-mode)
+        company-minimum-prefix-length 1
+		company-tooltip-align-annotations t
+		company-transformers nil
+		company-lsp-async t
+		company-lsp-cache-candidates nil)
+  (global-company-mode))  
+
+(defface company-icon+ `((t (:inherit company-tooltip)))
+  "Face for the margin icon in the `company-mode' tooltip."
+  :group 'company-faces)
+
+(defface company-current-icon+ `((t (:inherit company-tooltip-selection)))
+  "Face for the margin icon for the current candidate in the `company-mode' tooltip."
+  :group 'company-faces)
+
+;;(defconst all-the-icons-lsp-kinds+
+;;  (apply
+;;   #'cons
+;;   (cl-loop
+;;    for parent-face in '(company-icon+ company-current-icon+)
+;;    ;; TODO: Replace with whatever icons you want to use in place of these LSP kinds.
+;;    collect `((text        . ,(all-the-icons-nerd-seti "text"                       :face parent-face))
+;;              (method      . ,(propertize "ƒ"                                       'face `(:inherit (an-old-hope-yellow-int ,parent-face))))
+;;              (function    . ,(all-the-icons-nerd-mdi "function"                    :face `(:inherit (an-old-hope-yellow-int ,parent-face))))
+;;              (constructor . ,(all-the-icons-nerd-mdi "dna"                         :face parent-face))
+;;              (field       . ,(all-the-icons-nerd-mdi "code-parentheses"            :face parent-face))
+;;              (variable    . ,(all-the-icons-nerd-mdi "cube-outline"                :face parent-face))
+;;              (class       . ,(all-the-icons-nerd-mdi "code-braces"                 :face `(:inherit (an-old-hope-red ,parent-face))))
+;;              (interface   . ,(all-the-icons-nerd-mdi "arrow-down-bold-box-outline" :face parent-face))
+;;              (module      . ,(all-the-icons-nerd-mdi "package-variant-closed"      :face parent-face))
+;;              (property    . ,(all-the-icons-nerd-oct "code"                        :face parent-face))
+;;              (unit        . ,(all-the-icons-nerd-mdi "code-brackets"               :face parent-face))
+;;              (value       . ,(all-the-icons-nerd-mdi "numeric"                     :face parent-face))
+;;              (enum        . ,(all-the-icons-nerd-fa  "sort-alpha-asc"              :face `(:inherit (an-old-hope-orange ,parent-face))))
+;;              (keyword     . ,(all-the-icons-nerd-mdi "apple-keyboard-shift"        :face parent-face))
+;;              (snippet     . ,(all-the-icons-nerd-mdi "subdirectory-arrow-left"     :face parent-face))
+;;              (color       . ,(all-the-icons-nerd-mdi "palette"                     :face parent-face))
+;;              (file        . ,(all-the-icons-nerd-mdi "file"                        :face parent-face))
+;;              (reference   . ,(all-the-icons-nerd-mdi "format-list-bulleted"        :face parent-face)))))
+;;
+;;  "Association between `eglot' LSP kinds and annotation icons for `company-mode'.
+;;To reduce the amount of redundant processing in the margin function, this is defined
+;;as a cons cell of icon alists, with the car alist being for regular candidates in the
+;;company popup and the cdr alist for the current-candidate.
+;;
+;;This structure means you don't have to do any processing, or propertising to pick an
+;;icon for a candidate. A simple alist lookup is all you need... it might be worth
+;;turning this into a hashset.")
+
+(defconst all-the-icons-default-completion-icon+
+  (cons (all-the-icons-faicon "leaf" :face 'company-icon+)
+        (all-the-icons-faicon "leaf" :face 'company-current-icon+)))
+
+;; (setq company-format-margin-function
+;;       (defun company-format-margin-function+ (candidate selected)
+;;         (concat
+;;          (make-string company-tooltip-margin ? )
+;;          (or
+;;           (when-let ((kind (company-call-backend 'kind candidate)))
+;;             (alist-get kind
+;;                        (if selected
+;;                            (cdr all-the-icons-lsp-kinds+)
+;;                          (car all-the-icons-lsp-kinds+))))
+;;           (if selected
+;;               (cdr all-the-icons-default-completion-icon+)
+;;             (car all-the-icons-default-completion-icon+))))))
 
 (require 'keybinds)
 (provide 'config)
