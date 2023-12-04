@@ -47,6 +47,24 @@
 (global-set-key (kbd "C-M-u") 'universal-argument)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
+(defhydra window-resize-hydra ()
+  "
+    Resize window 
+  ────────────────────
+          ^_k_^       
+          ^^↑^^       
+      _h_ ←   → _l_   
+          ^^↓^^       
+          ^_j_^       
+          ^^ ^^       
+  ────────────────────
+"
+  ("j" evil-window-increase-height)
+  ("k" evil-window-decrease-height)
+  ("h" evil-window-decrease-width)
+  ("l" evil-window-increase-width)
+  ("q" nil))
+
 (create-leader-key-prefix window-leader-def
   :prefix "SPC w"
  :which-key "window")
@@ -54,13 +72,10 @@
 (window-leader-def
  :keymaps 'normal
  "v" 'split-window-and-follow-horizontally
- "s" 'split-window-and-follow-vertically
+ "h" 'split-window-and-follow-vertically
  "d" 'delete-window
- "j" 'evil-window-down
- "k" 'evil-window-up
- "l" 'evil-window-right
- "h" 'evil-window-left
- "=" 'balance-windows)
+ "=" 'balance-windows
+ "r" 'window-resize-hydra/body)
 
 ;; buffer keybinds
 (create-leader-key-prefix buffer-leader-def
@@ -177,6 +192,12 @@
  "M-[" 'previous-buffer :which-key "previous buffer"
  "M-b" 'xref-find-references
  "M-B" 'xref-find-definitions
+
+ ;; window navigation
+ "C-j" 'evil-window-down
+ "C-k" 'evil-window-up
+ "C-l" 'evil-window-right
+ "C-h" 'evil-window-left
 
  ;; eyebrowse keybinds
  "M-1" 'eyebrowse-switch-to-window-config-1

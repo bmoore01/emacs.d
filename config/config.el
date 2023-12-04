@@ -16,7 +16,8 @@
  cursor-type 'bar
  compilation-always-kill t
  compilation-scroll-output t
- show-paren-delay 0)
+ show-paren-delay 0
+ blink-cursor-mode 0)
 
 ;; set ui defaults
 ;; (tool-bar-mode -1)
